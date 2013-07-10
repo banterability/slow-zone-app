@@ -1,0 +1,58 @@
+body{
+  background-color: #130f30;
+  color: #ddd;
+  font-family: "Helvetica Neue";
+  margin: 0;
+  padding-bottom: 30px;
+}
+footer h1{
+  color: #aaa;
+  font-size: 1.6em;
+}
+footer{
+  color: #a9a9a9;
+  font-size: 0.8em;
+  text-align: center;
+}
+#results{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+#results li{
+  font-size: 2em;
+  height: 1.75em;
+  list-style: none;
+  position: relative;
+}
+#results .destination, #results .estimate{
+  font-weight: bold;
+  overflow: hidden;
+  position: absolute;
+  top: 8px;
+}
+#results .destination{
+  left: 5px;
+}
+#results .estimate{
+  right: 5px;
+}
+.meter{
+  background-color: #130f30;
+  display: block;
+  height: 100%;
+  width: 50%;
+}
+a{
+  color: #eee;
+}
+
+.red    {background-color: #C60C30; color: #eee;}
+.green  {background-color: #009B3A; color: #eee;}
+.brown  {background-color: #62361B; color: #eee;}
+.purple {background-color: #522398; color: #eee;}
+.blue   {background-color: #00A1DE; color: #eee;}
+.orange {background-color: #F9461C; color: #eee;}
+.yellow {background-color: #F9E300; color: #333;}
+.pink   {background-color: #E27EA6; color: #eee;}
+.gray   {background-color: #565A5C; color: #000;}
