@@ -29,6 +29,8 @@ class XMLObject
   _booleanValue: (value) ->
     if '1' then true else false
 
+# CTA API Docs: http://www.transitchicago.com/developers/ttdocs/default.aspx
+
 class Train extends XMLObject
   approaching: ->
     @getBoolean 'isApp'

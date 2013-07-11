@@ -9,13 +9,6 @@
     "request": "~2.12.0",
     "xml-object-stream": "~0.2.0"
   },
-  "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
-  },
-  "scripts": {
-    "start": "coffee index.coffee"
-  },
   "description": "Mobile-friendly CTA arrival data. We expect to be moving shortly.",
   "main": "index.coffee",
   "repository": {
