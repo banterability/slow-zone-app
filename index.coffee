@@ -8,11 +8,15 @@ parser = require './lib/parser'
 app = express()
 app.set 'view engine', 'mustache'
 app.set 'layout', 'layout'
+
 # app.set 'partials', head: 'head'
 app.engine 'mustache', require 'hogan-express'
 
 app.use "/assets", express.static "#{__dirname}/public"
 app.use express.bodyParser()
+
+throw "App Base URL not configured! ($BASE_URL)" unless process.env.BASE_URL
+app.set 'baseUrl', process.env.BASE_URL || ""
 
 throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
 app.set 'apiKey', process.env.CTA_API_KEY
@@ -23,10 +27,12 @@ if app.settings.env is "production"
 # Routes
 
 app.get "/", (req, res) ->
+  res.locals.baseUrl = app.get 'baseUrl'
   res.render 'index'
 
 app.get "/stop/:stopId", (req, res) ->
   res.set "Content-Type", "text/html"
+  res.locals.baseUrl = app.get 'baseUrl'
 
   client = new Client {apiKey: app.get('apiKey')}
   client.getStopPredictions req.params.stopId, (results) ->
@@ -34,6 +40,7 @@ app.get "/stop/:stopId", (req, res) ->
 
 app.get "/station/:stationId", (req, res) ->
   res.set "Content-Type", "text/html"
+  res.locals.baseUrl = app.get 'baseUrl'
 
   client = new Client {apiKey: app.get('apiKey')}
   client.getStationPredictions req.params.stationId, (results) ->
