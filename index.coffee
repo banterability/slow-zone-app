@@ -30,23 +30,23 @@ app.get "/stop/:stopId", (req, res) ->
 
   client = new Client {apiKey: app.get('apiKey')}
   client.getStopPredictions req.params.stopId, (results) ->
-    predictions = parser.fromServer(results)
-    route = predictions[0].prediction.stop.name
-    res.locals.predictions = predictions
-    res.locals.route = route
-    res.render 'results', partials: {prediction: "_prediction"}
+    renderPredictions results, res
 
 app.get "/station/:stationId", (req, res) ->
   res.set "Content-Type", "text/html"
 
   client = new Client {apiKey: app.get('apiKey')}
   client.getStationPredictions req.params.stationId, (results) ->
-    predictions = parser.fromServer(results)
-    route = predictions[0].prediction.stop.name
-    res.locals.predictions = predictions
-    res.locals.route = route
-    res.render 'results', partials: {prediction: "_prediction"}
+    renderPredictions results, res
 
-port = process.env.PORT || 5000
+port = process.env.PORT || 5678
 app.listen port, ->
   console.log "Server up on port #{port}"
+
+renderPredictions = (results, res) ->
+  predictions = parser.fromServer(results)
+  console.log "Found #{predictions.length} trains."
+  route = predictions[0].prediction.stop.name
+  res.locals.predictions = predictions
+  res.locals.route = route
+  res.render 'results', partials: {prediction: "_prediction"}
