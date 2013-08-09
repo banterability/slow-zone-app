@@ -1,0 +1,18 @@
+{{#predictions}}
+    <h1>{{heading}}</h1>
+    {{#next}}
+    <h3>{{prediction.stop.name}} towards {{train.destination.name}}</h3>
+
+    <p>Next: {{prediction.minutes}}m ({{ prediction.arrivalTime }})</p>
+
+    <ul id="results">
+      {{#future}}
+        <li>{{ prediction.minutes }}m ({{ prediction.arrivalTime }}) – {{train.destination.name}}</li>
+      </li>
+      {{/future}}
+    </ul>
+    {{/next}}
+    {{^next}}
+      <p>No trains approaching.</p>
+    {{/next}}
+{{/predictions}}

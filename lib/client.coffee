@@ -1,4 +1,5 @@
 request = require 'request'
+{extend} = require 'underscore'
 
 class Client
   BASE_URL = "http://lapi.transitchicago.com/api/1.0"
@@ -27,11 +28,13 @@ class Client
 
   ## routes ##
 
-  getStationPredictions: (stationId, callback) ->
-    @getArrivals {mapid: stationId}, callback
+  getStationPredictions: (stationId, options, callback) ->
+    params = extend {}, {mapid: stationId}, options
+    @getArrivals params, callback
 
-  getStopPredictions: (stopId, callback) ->
-    @getArrivals {stpid: stopId}, callback
+  getStopPredictions: (stopId, options, callback) ->
+    params = extend {}, {stpid: stopId}, options
+    @getArrivals params, callback
 
   getArrivals: (params, callback) ->
     url = @buildUrl 'ttarrivals.aspx', params

@@ -23,6 +23,7 @@ buildPrediction = (tree) ->
     prediction:
       predictedFor: getTimeNodeFromTree 'arrT', tree
       generatedAt: getTimeNodeFromTree 'prdt', tree
+      arrivalTime: prettyTime getTimeNodeFromTree('arrT', tree)
       isApproaching: getBooleanNodeFromTree 'isApp', tree
       isScheduled: getBooleanNodeFromTree 'isSch', tree
       isFaulty: getBooleanNodeFromTree 'isFlt', tree
@@ -38,6 +39,9 @@ buildPrediction = (tree) ->
   payload.prediction.minutes = getMinutesRemaining payload.prediction.generatedAt, payload.prediction.predictedFor
   payload.status = addStatusClasses(payload)
   payload
+
+prettyTime = (time) ->
+  "#{time.getHours()}:#{time.getMinutes()}"
 
 findNodeInTree = (node, tree) ->
   tree.find(node)
