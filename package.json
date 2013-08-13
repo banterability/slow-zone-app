@@ -9,7 +9,8 @@
     "hogan-express": "~0.3.3",
     "request": "~2.12.0",
     "async": "~0.2.9",
-    "underscore": "~1.5.1"
+    "underscore": "~1.5.1",
+    "deadline": "git://github.com/banterability/deadline.git"
   },
   "engines": {
     "node": "0.10.x",
