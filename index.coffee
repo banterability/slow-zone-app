@@ -1,6 +1,7 @@
 express = require 'express'
 async = require 'async'
 url = require 'url'
+{sortBy} = require 'underscore'
 
 Client = require './lib/client'
 parser = require './lib/parser'
@@ -47,13 +48,7 @@ app.get '/am', (req, res) ->
         callback(null, results)
 
   async.parallel requests, (err, results) ->
-    predictions = {}
-
-    predictions = for line of results
-      prepareSection results[line], line
-
-    res.locals.predictions = predictions
-    res.render 'options'
+    respondWithOptions err, results, res
 
 
 app.get '/pm', (req, res) ->
@@ -67,31 +62,42 @@ app.get '/pm', (req, res) ->
         callback(null, results)
 
   async.parallel requests, (err, results) ->
-    predictions = {}
-
-    predictions = for line of results
-      prepareSection results[line], line
-
-    res.locals.predictions = predictions
-    res.render 'options'
+    respondWithOptions err, results, res
 
 
 port = process.env.PORT || 5678
 app.listen port, ->
   console.log "Server up on port #{port}"
 
+respondWithOptions = (err, results, res) ->
+  predictions = for line of results
+    prepareStop results[line], line
+
+  predictions = sortBy predictions, (stop) ->
+    nextTrain = stop.upcoming.split(",")[0]
+    parseInt nextTrain, 10
+
+  res.locals.predictions = predictions
+  res.render 'options'
+
 parsePredictions = (results) ->
   parser.fromServer(results)
 
-prepareSection = (results, name) ->
+prepareStop = (results, name) ->
   predictions = parser.fromServer results
+  upcoming = presentUpcoming predictions
   first = predictions.shift()
 
   {
     heading: name
     next: first
     future: predictions
+    upcoming: upcoming
   }
+
+presentUpcoming = (predictions) ->
+  predictionList = predictions.map (train) -> "#{train.prediction.minutes}m"
+  predictionList.join ", "
 
 renderPredictions = (results, res, cb) ->
   predictions = parsePredictions(results)
