@@ -7,6 +7,7 @@ Client = require './lib/client'
 parser = require './lib/parser'
 {drawIcon} = require './lib/icons'
 
+
 # Configuration
 
 app = express()
@@ -27,6 +28,7 @@ if app.settings.env is "production"
 
 client = new Client apiKey: app.get('apiKey')
 
+
 # Middleware
 
 # Add `baseUrl` to all requests
@@ -35,6 +37,7 @@ app.use (req, res, next) ->
     host: req.headers.host
     protocol: req.protocol
   next()
+
 
 # Routes
 
@@ -66,29 +69,20 @@ app.get '/pm', (req, res) ->
     respondWithOptions err, results, res
 
 
+## Server
+
 port = process.env.PORT || 5678
 app.listen port, ->
   console.log "Server up on port #{port}"
+
+
+## Helpers
 
 getAllIncludedLines = (predictions) ->
   chain(predictions.map (predictionSet) ->
     predictionSet.trains.map (t) ->
       t.train.line.name
   ).flatten().uniq().value()
-
-respondWithOptions = (err, results, res) ->
-  predictions = for line of results
-    prepareStop results[line], line
-
-  lines = getAllIncludedLines predictions
-  res.locals.icon = drawIcon lines
-
-  predictions = sortBy predictions, (stop) ->
-    nextTrain = stop.upcoming.split(",")[0]
-    parseInt nextTrain, 10
-  res.locals.predictions = predictions
-
-  res.render 'options'
 
 parsePredictions = (results) ->
   parser.fromServer(results)
@@ -107,16 +101,16 @@ presentUpcoming = (predictions) ->
   predictionList = predictions.map (train) -> "#{train.prediction.minutes}m"
   predictionList.join ", "
 
-renderPredictions = (results, res, cb) ->
-  predictions = parsePredictions(results)
-  console.log "Found #{predictions.length} trains."
-  route = predictions[0].prediction.stop.name
+respondWithOptions = (err, results, res) ->
+  predictions = for line of results
+    prepareStop results[line], line
+
+  lines = getAllIncludedLines predictions
+  res.locals.icon = drawIcon lines
+
+  predictions = sortBy predictions, (stop) ->
+    nextTrain = stop.upcoming.split(",")[0]
+    parseInt nextTrain, 10
   res.locals.predictions = predictions
-  res.locals.route = route
-  cb(res)
 
-renderForWeb = (res) ->
-  res.render 'results', partials: {prediction: "_prediction"}
-
-renderForPrinter = (res) ->
-  res.render 'printout'
+  res.render 'options'
