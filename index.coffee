@@ -105,12 +105,10 @@ respondWithOptions = (err, results, res) ->
   predictions = for line of results
     prepareStop results[line], line
 
-  lines = getAllIncludedLines predictions
-  res.locals.icon = drawIcon lines
+  res.locals.icon = drawIcon getAllIncludedLines(predictions)
 
-  predictions = sortBy predictions, (stop) ->
+  res.locals.predictions = sortBy predictions, (stop) ->
     nextTrain = stop.upcoming.split(",")[0]
     parseInt nextTrain, 10
-  res.locals.predictions = predictions
 
   res.render 'options'
