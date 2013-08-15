@@ -1,16 +1,10 @@
 {{#predictions}}
-    {{#next}}
     <h3>{{heading}} @ {{prediction.stop.name}}</h3>
     <p>{{upcoming}}</p>
     <ul class="details">
-      <li class="next">{{ prediction.arrivalTime }} towards {{train.destination.name}}</li>
-      {{#future}}
+      {{#trains}}
         <li>{{ prediction.arrivalTime }} towards {{train.destination.name}}</li>
       </li>
-      {{/future}}
+      {{/trains}}
     </ul>
-    {{/next}}
-    {{^next}}
-      <p>No trains approaching.</p>
-    {{/next}}
 {{/predictions}}

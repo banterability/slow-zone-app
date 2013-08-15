@@ -58,13 +58,13 @@ drawIcon = (items) ->
     [x, y, width, height] = element
     ctx.fillRect x, y, width, height
 
-  console.log canvas.toDataURL()
+  canvas.toDataURL()
 
 getLayoutForItems = (items) ->
   ICON_LAYOUTS[items.length]
 
 getCTAColor = (line) ->
-  CTA_COLORS[line]
+  CTA_COLORS[line.toLowerCase()]
 
 # drawIcon(['pink', 'brown', 'purple', 'green', 'orange'])
 

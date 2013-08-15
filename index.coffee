@@ -1,10 +1,11 @@
 express = require 'express'
 async = require 'async'
 url = require 'url'
-{sortBy} = require 'underscore'
+{sortBy, chain} = require 'underscore'
 
 Client = require './lib/client'
 parser = require './lib/parser'
+{drawIcon} = require './lib/icons'
 
 # Configuration
 
@@ -69,15 +70,24 @@ port = process.env.PORT || 5678
 app.listen port, ->
   console.log "Server up on port #{port}"
 
+getAllIncludedLines = (predictions) ->
+  chain(predictions.map (predictionSet) ->
+    predictionSet.trains.map (t) ->
+      t.train.line.name
+  ).flatten().uniq().value()
+
 respondWithOptions = (err, results, res) ->
   predictions = for line of results
     prepareStop results[line], line
 
+  lines = getAllIncludedLines predictions
+  res.locals.icon = drawIcon lines
+
   predictions = sortBy predictions, (stop) ->
     nextTrain = stop.upcoming.split(",")[0]
     parseInt nextTrain, 10
-
   res.locals.predictions = predictions
+
   res.render 'options'
 
 parsePredictions = (results) ->
@@ -86,12 +96,10 @@ parsePredictions = (results) ->
 prepareStop = (results, name) ->
   predictions = parser.fromServer results
   upcoming = presentUpcoming predictions
-  first = predictions.shift()
 
   {
     heading: name
-    next: first
-    future: predictions
+    trains: predictions
     upcoming: upcoming
   }
 
