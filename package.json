@@ -27,5 +27,8 @@
     "url": "https://github.com/banterability/slow-zone"
   },
   "author": "Jeff Long",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "csv": "~0.3.6"
+  }
 }
