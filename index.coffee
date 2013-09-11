@@ -47,6 +47,10 @@ app.get '/am', (req, res) ->
       client.getStopPredictions 30031, {rt: 'P'}, (results) ->
         callback(null, results)
 
+    Brown: (callback) ->
+      client.getStopPredictions 30031, {rt: 'Brn'}, (results) ->
+        callback(null, results)
+
     Blue: (callback) ->
       client.getStopPredictions 30261, {rt: 'Blue'}, (results) ->
         callback(null, results)
