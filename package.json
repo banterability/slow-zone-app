@@ -10,8 +10,7 @@
     "request": "~2.12.0",
     "async": "~0.2.9",
     "underscore": "~1.5.1",
-    "deadline": "~0.9.0",
-    "canvas": "~1.1.0"
+    "deadline": "~0.9.0"
   },
   "engines": {
     "node": "0.10.x",
