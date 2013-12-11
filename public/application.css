@@ -1,17 +1,33 @@
 body{
-  background-color: #130f30;
-  color: #ddd;
-  font-family: "Helvetica Neue";
-  margin: 0;
-  padding-bottom: 30px;
+  font-family: Avenir;
 }
 
-.red    {background-color: #C60C30; color: #eee;}
-.green  {background-color: #009B3A; color: #eee;}
-.brown  {background-color: #62361B; color: #eee;}
-.purple {background-color: #522398; color: #eee;}
-.blue   {background-color: #00A1DE; color: #eee;}
-.orange {background-color: #F9461C; color: #eee;}
-.yellow {background-color: #F9E300; color: #333;}
-.pink   {background-color: #E27EA6; color: #eee;}
-.gray   {background-color: #565A5C; color: #000;}
+.details{
+  list-style-type: none;
+  padding: 0;
+}
+
+.cta-train{
+  line-height: 55px;
+}
+
+.cta-train:before{
+  border-radius: 50%;
+  border: 5px solid rgba(255,255,255,0.25);
+  content: '';
+  display: inline-block;
+  height: 30px;
+  margin-right: 5px;
+  vertical-align: -15px;
+  width: 30px;
+}
+
+.cta-red:before {background-color: #C60C30;}
+.cta-green:before {background-color: #009B3A;}
+.cta-brown:before {background-color: #62361B;}
+.cta-purple:before {background-color: #522398;}
+.cta-blue:before {background-color: #00A1DE;}
+.cta-orange:before {background-color: #F9461C;}
+.cta-yellow:before {background-color: #F9E300;}
+.cta-pink:before {background-color: #E27EA6;}
+.cta-gray:before {background-color: #565A5C}
