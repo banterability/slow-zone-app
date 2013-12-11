@@ -2,6 +2,7 @@ express = require 'express'
 async = require 'async'
 url = require 'url'
 {sortBy, chain} = require 'underscore'
+{flatten} = require 'underscore'
 
 Client = require './lib/client'
 parser = require './lib/parser'
@@ -41,47 +42,27 @@ app.use (req, res, next) ->
 
 # Routes
 
+predictionsForStop = (stopId, options = {}) ->
+  return (callback) ->
+    client.getStopPredictions stopId, options, (results) ->
+      callback(null, results)
+
+
 app.get '/am', (req, res) ->
-  requests =
-    Purple: (callback) ->
-      client.getStopPredictions 30031, {rt: 'P'}, (results) ->
-        callback(null, results)
-
-    Brown: (callback) ->
-      client.getStopPredictions 30030, {rt: 'Brn'}, (results) ->
-        callback(null, results)
-
-    Blue: (callback) ->
-      client.getStopPredictions 30261, {rt: 'Blue'}, (results) ->
-        callback(null, results)
+  requests = [
+    predictionsForStop 30031, {rt: 'P'}
+    predictionsForStop 30030, {rt: 'Brn'}
+    predictionsForStop 30261
+  ]
 
   async.parallel requests, (err, results) ->
     respondWithOptions err, results, res
 
 
 app.get '/pm', (req, res) ->
-  requests =
-    Brown: (callback) ->
-      client.getStopPredictions 30138, {rt: 'Brn'}, (results) ->
-        callback(null, results)
-
-    Purple: (callback) ->
-      client.getStopPredictions 30138, {rt: 'P'}, (results) ->
-        callback(null, results)
-
-  async.parallel requests, (err, results) ->
-    respondWithOptions err, results, res
-
-
-app.get '/demo', (req, res) ->
-  requests =
-    "Lake (Elevated)": (callback) ->
-      client.getStopPredictions 30050, {}, (results) ->
-        callback(null, results)
-
-    "Lake (Subway)": (callback) ->
-      client.getStopPredictions 30289, {}, (results) ->
-        callback(null, results)
+  requests = [
+    predictionsForStop 30138
+  ]
 
   async.parallel requests, (err, results) ->
     respondWithOptions err, results, res
@@ -96,37 +77,15 @@ app.listen port, ->
 
 ## Helpers
 
-getAllIncludedLines = (predictions) ->
-  chain(predictions.map (predictionSet) ->
-    predictionSet.trains.map (t) ->
-      t.train.line.name
-  ).flatten().uniq().value()
 
-parsePredictions = (results) ->
-  parser.fromServer(results)
-
-prepareStop = (results, name) ->
-  predictions = parser.fromServer results
-  upcoming = presentUpcoming predictions
-
-  {
-    heading: name
-    trains: predictions
-    upcoming: upcoming
-  }
-
-presentUpcoming = (predictions) ->
-  predictionList = predictions.map (train) -> "#{train.prediction.minutes}m"
-  predictionList.join ", "
 
 respondWithOptions = (err, results, res) ->
-  predictions = for line of results
-    prepareStop results[line], line
 
-  # res.locals.icon = drawIcon getAllIncludedLines(predictions)
+  predictions = for response in results
+    parser.fromServer response
 
-  res.locals.predictions = sortBy predictions, (stop) ->
-    nextTrain = stop.upcoming.split(",")[0]
-    parseInt nextTrain, 10
+  res.locals.predictions = chain(predictions).flatten().sortBy(
+    (train) -> parseInt train.prediction.minutes
+  ).value()
 
   res.render 'options'

@@ -1,13 +1,11 @@
+<ul class="details">
 {{#predictions}}
-    <h3>{{heading}} @ {{prediction.stop.name}}</h3>
-    <p>{{upcoming}}</p>
-    <ul class="details">
-      {{#trains}}
-        <li class="cta-train cta-{{train.line.class}}">{{ prediction.arrivalTime }} towards {{train.destination.name}}</li>
-      </li>
-      {{/trains}}
-    </ul>
-  {{^trains}}
-    No trains.
-  {{/trains}}
+  <li class="cta-train cta-{{train.line.class}}">
+    <span class="bubble">{{ prediction.minutes }}m</span>
+    {{ prediction.arrivalTime }} towards {{train.destination.name}}
+  </li>
 {{/predictions}}
+{{^predictions}}
+  <li>No trains</li>
+{{/predictions}}
+</ul>
