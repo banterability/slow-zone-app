@@ -5,7 +5,7 @@ url = require 'url'
 
 Client = require './lib/client'
 parser = require './lib/parser'
-{drawIcon} = require './lib/icons'
+# {drawIcon} = require './lib/icons'
 
 
 # Configuration
