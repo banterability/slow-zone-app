@@ -73,6 +73,20 @@ app.get '/pm', (req, res) ->
     respondWithOptions err, results, res
 
 
+app.get '/demo', (req, res) ->
+  requests =
+    "Lake (Elevated)": (callback) ->
+      client.getStopPredictions 30050, {}, (results) ->
+        callback(null, results)
+
+    "Lake (Subway)": (callback) ->
+      client.getStopPredictions 30289, {}, (results) ->
+        callback(null, results)
+
+  async.parallel requests, (err, results) ->
+    respondWithOptions err, results, res
+
+
 ## Server
 
 port = process.env.PORT || 5678
@@ -109,7 +123,7 @@ respondWithOptions = (err, results, res) ->
   predictions = for line of results
     prepareStop results[line], line
 
-  res.locals.icon = drawIcon getAllIncludedLines(predictions)
+  # res.locals.icon = drawIcon getAllIncludedLines(predictions)
 
   res.locals.predictions = sortBy predictions, (stop) ->
     nextTrain = stop.upcoming.split(",")[0]

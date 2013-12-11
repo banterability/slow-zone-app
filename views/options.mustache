@@ -3,8 +3,11 @@
     <p>{{upcoming}}</p>
     <ul class="details">
       {{#trains}}
-        <li>{{ prediction.arrivalTime }} towards {{train.destination.name}}</li>
+        <li class="cta-train cta-{{train.line.class}}">{{ prediction.arrivalTime }} towards {{train.destination.name}}</li>
       </li>
       {{/trains}}
     </ul>
+  {{^trains}}
+    No trains.
+  {{/trains}}
 {{/predictions}}
