@@ -22,6 +22,9 @@ buildPrediction = (tree) ->
         id: getNodeFromTree 'destSt', tree
         name: getNodeFromTree 'destNm', tree
     prediction:
+      timestamps:
+        prediction: (getTimeNodeFromTree 'arrT', tree).getTime()
+        origin: (getTimeNodeFromTree 'prdt', tree).getTime()
       predictedFor: getTimeNodeFromTree 'arrT', tree
       generatedAt: getTimeNodeFromTree 'prdt', tree
       arrivalTime: prettyTime getTimeNodeFromTree('arrT', tree)

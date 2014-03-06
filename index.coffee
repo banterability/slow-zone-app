@@ -19,7 +19,6 @@ app.set 'layout', 'layout'
 app.engine 'mustache', require 'hogan-express'
 
 app.use "/assets", express.static "#{__dirname}/public"
-app.use express.bodyParser()
 
 throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
 app.set 'apiKey', process.env.CTA_API_KEY
@@ -56,7 +55,7 @@ app.get '/am', (req, res) ->
   ]
 
   async.parallel requests, (err, results) ->
-    respondWithOptions err, results, res
+    respondWithOptions err, results, res, templateName: 'new_options'
 
 
 app.get '/pm', (req, res) ->
@@ -77,10 +76,7 @@ app.listen port, ->
 
 ## Helpers
 
-
-
-respondWithOptions = (err, results, res) ->
-
+respondWithOptions = (err, results, res, options = {}) ->
   predictions = for response in results
     parser.fromServer response
 
@@ -88,4 +84,6 @@ respondWithOptions = (err, results, res) ->
     (train) -> parseInt train.prediction.minutes
   ).value()
 
-  res.render 'options'
+  template = options.templateName or 'options'
+
+  res.render template

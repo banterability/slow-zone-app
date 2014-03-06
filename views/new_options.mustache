@@ -1,0 +1,31 @@
+<ul class="details">
+{{#predictions}}
+  <li data-predicted-for="{{prediction.timestamps.prediction}}" data-predicted-at="{{prediction.timestamps.origin}}">
+   <span class="prediction">{{ prediction.minutes }}</span> :: {{ prediction.minutes }} :: {{ prediction.arrivalTime }}
+  </li>
+{{/predictions}}
+{{^predictions}}
+  <li>No trains</li>
+{{/predictions}}
+</ul>
+
+<script>
+var els = document.querySelectorAll('li');
+estimate = function(){
+  [].forEach.call(els, function(one){
+    var estimate = (one.dataset.predictedFor - one.dataset.predictedAt) / (1000 * 60);
+    var actual = Math.round((one.dataset.predictedFor - (new Date).getTime()) / (1000 * 60));
+    if(actual < 1){
+      actual = "now";
+    }
+    var predictionNode = one.querySelector('.prediction');
+    console.log("++ check");
+    if(predictionNode.textContent != actual){
+      console.log("!! dom write");
+      predictionNode.textContent = actual;
+    }
+  })
+  console.log("------ tick ------");
+};
+setInterval(estimate, 1000);
+</script>
