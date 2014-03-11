@@ -46,6 +46,9 @@ predictionsForStop = (stopId, options = {}) ->
     client.getStopPredictions stopId, options, (results) ->
       callback(null, results)
 
+getTemplate = (req) ->
+  return 'new_options' if req.query['new']
+  'options'
 
 app.get '/am', (req, res) ->
   requests = [
@@ -55,7 +58,7 @@ app.get '/am', (req, res) ->
   ]
 
   async.parallel requests, (err, results) ->
-    respondWithOptions err, results, res, templateName: 'new_options'
+    respondWithOptions err, results, res, templateName: getTemplate(req)
 
 
 app.get '/pm', (req, res) ->
@@ -64,7 +67,7 @@ app.get '/pm', (req, res) ->
   ]
 
   async.parallel requests, (err, results) ->
-    respondWithOptions err, results, res
+    respondWithOptions err, results, res, templateName: getTemplate(req)
 
 
 ## Server
@@ -84,6 +87,4 @@ respondWithOptions = (err, results, res, options = {}) ->
     (train) -> parseInt train.prediction.minutes
   ).value()
 
-  template = options.templateName or 'options'
-
-  res.render template
+  res.render options.templateName
