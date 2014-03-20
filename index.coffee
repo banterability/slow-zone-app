@@ -6,7 +6,7 @@ url = require 'url'
 
 Client = require './lib/client'
 parser = require './lib/parser'
-# {drawIcon} = require './lib/icons'
+{drawIcon} = require './lib/icons'
 
 
 # Configuration
@@ -79,9 +79,18 @@ app.listen port, ->
 
 ## Helpers
 
+getAllIncludedLines = (predictions) ->
+  chain(predictions.map (predictionSet) ->
+    console.log predictionSet
+    predictionSet.map (t) ->
+      t.train.line.name
+    ).flatten().uniq().value()
+
 respondWithOptions = (err, results, res, options = {}) ->
   predictions = for response in results
     parser.fromServer response
+
+  res.locals.icon = drawIcon getAllIncludedLines(predictions)
 
   res.locals.predictions = chain(predictions).flatten().sortBy(
     (train) -> parseInt train.prediction.minutes
