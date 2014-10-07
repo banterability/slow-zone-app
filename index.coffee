@@ -1,5 +1,6 @@
 express = require 'express'
 async = require 'async'
+morgan = require 'morgan'
 url = require 'url'
 {sortBy, chain} = require 'underscore'
 {flatten} = require 'underscore'
@@ -14,6 +15,8 @@ parser = require './lib/parser'
 app = express()
 app.set 'view engine', 'mustache'
 app.set 'layout', 'layout'
+
+app.use morgan('short')
 
 # app.set 'partials', head: 'head'
 app.engine 'mustache', require 'hogan-express'
