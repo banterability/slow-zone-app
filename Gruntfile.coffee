@@ -6,7 +6,6 @@ module.exports = (grunt) ->
       compile:
         files:
           'public/style.css': ['lib/frontend/stylus/index.styl']
-        ]
     watch:
       scripts:
         files: ['lib/frontend/stylus/*.styl']
