@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta name = "viewport" content = "width=device-width, minimal-ui">
-  <title>{{#title}}{{title}}{{/title}}{{^title}}Slow Zone{{/title}}</title>
-  <link href="{{baseUrl}}/assets/style.css" media="screen" rel="stylesheet" type="text/css">
-  {{#icon}}
-  <link rel="icon" type="image/png" href="{{icon}}">
-  <link rel="apple-touch-icon" type="image/png" href="{{icon}}">
-  {{/icon}}
-</head>
-<body>
-  {{{ yield }}}
-</body>
+  <head>
+    <meta name="viewport" content="width=device-width">
+    <title>{{#title}}{{title}}{{/title}}{{^title}}Slow Zone{{/title}}</title>
+    <link href="{{baseUrl}}/assets/style.css" rel="stylesheet">
+    {{#icon}}
+      <link rel="icon" type="image/png" href="{{icon}}">
+      <link rel="apple-touch-icon" type="image/png" href="{{icon}}">
+    {{/icon}}
+  </head>
+  <body>
+    {{{ yield }}}
+  </body>
 </html>
