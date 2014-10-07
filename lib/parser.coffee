@@ -1,6 +1,6 @@
 fs = require "fs"
 et = require "elementtree"
-Deadline = require 'deadline'
+Dateline = require 'dateline'
 
 module.exports.fromServer = (data) ->
   extractPredictionsFromData(data)
@@ -45,7 +45,7 @@ buildPrediction = (tree) ->
   payload
 
 prettyTime = (time) ->
-  new Deadline(time).getTime()
+  Dateline(time).getAPTime()
 
 findNodeInTree = (node, tree) ->
   tree.find(node)
