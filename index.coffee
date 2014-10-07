@@ -1,7 +1,6 @@
 express = require 'express'
 async = require 'async'
 morgan = require 'morgan'
-url = require 'url'
 {sortBy, chain} = require 'underscore'
 {flatten} = require 'underscore'
 
@@ -35,12 +34,7 @@ client = new Client apiKey: app.get('apiKey')
 # Middleware
 
 # Add `baseUrl` to all requests
-app.use (req, res, next) ->
-  res.locals.baseUrl = url.format
-    host: req.headers.host
-    protocol: req.protocol
-  next()
-
+app.use require('./lib/middleware/base_url')
 
 # Routes
 
