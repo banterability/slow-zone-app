@@ -84,7 +84,6 @@ app.listen port, ->
 
 getAllIncludedLines = (predictions) ->
   chain(predictions.map (predictionSet) ->
-    console.log predictionSet
     predictionSet.map (t) ->
       t.train.line.name
     ).flatten().uniq().value()

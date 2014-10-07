@@ -38,7 +38,6 @@ class Client
 
   getArrivals: (params, callback) ->
     url = @buildUrl 'ttarrivals.aspx', params
-    console.log "Requesting #{url}..."
     @fetch {url}, callback
 
 module.exports = Client
