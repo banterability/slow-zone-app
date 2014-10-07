@@ -27,5 +27,12 @@
     "url": "https://github.com/banterability/slow-zone"
   },
   "author": "Jeff Long",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "grunt-contrib-stylus": "^0.20.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "nib": "^1.0.4",
+    "stylus": "^0.49.1"
+  }
 }
