@@ -1,51 +1,29 @@
-express = require 'express'
 async = require 'async'
-morgan = require 'morgan'
-{sortBy, chain} = require 'underscore'
-{flatten} = require 'underscore'
-
+baseUrlMiddleware = require './lib/middleware/base_url'
 Client = require './lib/client'
+express = require 'express'
+hogan = require 'hogan-express'
+morgan = require 'morgan'
 parser = require './lib/parser'
 {drawIcon} = require './lib/icons'
-
-
-# Configuration
+{flatten} = require 'underscore'
+{sortBy, chain} = require 'underscore'
 
 app = express()
+
 app.set 'view engine', 'mustache'
 app.set 'layout', 'layout'
+app.engine 'mustache', hogan
+app.enable 'view cache' if app.settings.env is "production"
 
 app.use morgan('short')
-
-# app.set 'partials', head: 'head'
-app.engine 'mustache', require 'hogan-express'
-
 app.use "/assets", express.static "#{__dirname}/public"
+app.use baseUrlMiddleware
 
 throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
 app.set 'apiKey', process.env.CTA_API_KEY
 
-if app.settings.env is "production"
-  app.enable 'view cache'
-
 client = new Client apiKey: app.get('apiKey')
-
-
-# Middleware
-
-# Add `baseUrl` to all requests
-app.use require('./lib/middleware/base_url')
-
-# Routes
-
-predictionsForStop = (stopId, options = {}) ->
-  return (callback) ->
-    client.getStopPredictions stopId, options, (results) ->
-      callback(null, results)
-
-getTemplate = (req) ->
-  return 'new_options' if req.query['new']
-  'options'
 
 app.get '/am', (req, res) ->
   requests = [
@@ -66,21 +44,28 @@ app.get '/pm', (req, res) ->
   async.parallel requests, (err, results) ->
     respondWithOptions err, results, res, templateName: getTemplate(req)
 
-
 ## Server
 
 port = process.env.PORT || 5678
 app.listen port, ->
   console.log "Server up on port #{port}"
 
-
 ## Helpers
+
+getTemplate = (req) ->
+  return 'new_options' if req.query['new']
+  'options'
 
 getAllIncludedLines = (predictions) ->
   chain(predictions.map (predictionSet) ->
     predictionSet.map (t) ->
       t.train.line.name
     ).flatten().uniq().value()
+
+predictionsForStop = (stopId, options = {}) ->
+  return (callback) ->
+    client.getStopPredictions stopId, options, (results) ->
+      callback(null, results)
 
 respondWithOptions = (err, results, res, options = {}) ->
   predictions = for response in results
