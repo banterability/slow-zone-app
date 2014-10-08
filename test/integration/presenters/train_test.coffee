@@ -41,3 +41,20 @@ describe 'Train', ->
 
     it 'presents the run number', ->
       assert.equal 715, @train.run
+
+    describe 'prediction', ->
+      it 'presents the arrival time as a native JS date', ->
+        expected = new Date(2014, 9, 7, 14, 50, 27).getTime()
+        actual = @train.prediction.arrivalTime.getTime()
+        assert.equal expected, actual
+
+      it 'presents the arrival time as a human-readable string', ->
+        assert.equal '2:50 p.m.', @train.prediction.arrivalString
+
+      it 'presents the original prediction time as a native JS date', ->
+        expected = new Date(2014, 9, 7, 14, 49, 27).getTime()
+        actual = @train.prediction.predictionTime.getTime()
+        assert.equal expected, actual
+
+      it 'presents the number of minutes between the prediction time and the arrival time', ->
+        assert.equal 1, @train.prediction.arrivalMinutes
