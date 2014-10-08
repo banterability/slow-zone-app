@@ -1,11 +1,23 @@
-class Train
-  constructor: (@attributes={}) ->
+ATTRIBUTE_MAPPING =
+  'destNm'  : 'destinationName'
+  'destSt'  : 'destinationId'
+  'rn'      : 'runNumber'
+  'rt'      : 'routeId'
+  'staId'   : 'stationId'
+  'staNm'   : 'stationName'
+  'stpDe'   : 'stopDescription'
+  'stpId'   : 'stopId'
+  'lat'     : 'locationLatitude'
+  'lon'     : 'locationLongitude'
+  'heading' : 'locationHeading'
 
-  routeId: ->
-    @attributes.rt
+
+class Train
+  constructor: (attributes={}) ->
+    (@[value] = attributes[key] if attributes[key]) for key, value of ATTRIBUTE_MAPPING
 
   route: ->
-    switch route = @routeId()
+    switch route = @routeId
       when "Brn" then "Brown"
       when "G" then "Green"
       when "Org" then "Orange"
@@ -14,8 +26,22 @@ class Train
       else route
 
   toHash: ->
+    destination:
+      id: @destinationId
+      name: @destinationName
+    location:
+      lat: @locationLatitude
+      lng: @locationLongitude
+      heading: @locationHeading
     route:
-      id: @routeId()
+      id: @routeId
       name: @route()
+    run: @runNumber
+    stop:
+      id: @stopId
+      description: @stopDescription
+    station:
+      id: @stationId
+      name: @stationName
 
 module.exports = Train
