@@ -1,15 +1,15 @@
 ATTRIBUTE_MAPPING =
   'destNm'  : 'destinationName'
   'destSt'  : 'destinationId'
+  'heading' : 'locationHeading'
+  'lat'     : 'locationLatitude'
+  'lon'     : 'locationLongitude'
   'rn'      : 'runNumber'
   'rt'      : 'routeId'
   'staId'   : 'stationId'
   'staNm'   : 'stationName'
   'stpDe'   : 'stopDescription'
   'stpId'   : 'stopId'
-  'lat'     : 'locationLatitude'
-  'lon'     : 'locationLongitude'
-  'heading' : 'locationHeading'
 
 
 class Train
