@@ -42,6 +42,19 @@ describe 'Train', ->
     it 'presents the run number', ->
       assert.equal 715, @train.run
 
+    describe 'flags', ->
+      it 'presents whether the train is approaching', ->
+        assert.truthy @train.flags.approaching
+
+      it 'presents whether the train is delayed', ->
+        assert.falsey @train.flags.delayed
+
+      it 'presents whether the train is faulty', ->
+        assert.falsey @train.flags.faulty
+
+      it 'presents whether the train is scheduled', ->
+        assert.falsey @train.flags.scheduled
+
     describe 'prediction', ->
       it 'presents the arrival time as a native JS date', ->
         expected = new Date(2014, 9, 7, 14, 50, 27).getTime()

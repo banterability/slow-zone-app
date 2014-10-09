@@ -97,3 +97,40 @@ describe 'Train', ->
       it 'handles the Pink line', ->
         t = trainWithStubbedProperty 'routeId', 'Pink'
         assert.equal 'Pink', t.route()
+
+  describe 'flags', ->
+    describe 'isApproaching', ->
+      it 'returns true if train is approaching', ->
+        t = trainWithStubbedProperty 'approachingFlag', 1
+        assert.truthy t.isApproaching()
+
+      it 'returns false if train is not approaching', ->
+        t = trainWithStubbedProperty 'approachingFlag', 0
+        assert.falsey t.isApproaching()
+
+    describe 'isDelayed', ->
+      it 'returns true if train is delayed', ->
+        t = trainWithStubbedProperty 'delayedFlag', 1
+        assert.truthy t.isDelayed()
+
+      it 'returns false if train is not delayed', ->
+        t = trainWithStubbedProperty 'delayedFlag', 0
+        assert.falsey t.isDelayed()
+
+    describe 'isFaulty', ->
+      it 'returns true if train is faulty', ->
+        t = trainWithStubbedProperty 'faultyFlag', 1
+        assert.truthy t.isFaulty()
+
+      it 'returns false if train is not faulty', ->
+        t = trainWithStubbedProperty 'faultyFlag', 0
+        assert.falsey t.isFaulty()
+
+    describe 'isScheduled', ->
+      it 'returns true if train is scheduled', ->
+        t = trainWithStubbedProperty 'scheduledFlag', 1
+        assert.truthy t.isScheduled()
+
+      it 'returns false if train is not scheduled', ->
+        t = trainWithStubbedProperty 'scheduledFlag', 0
+        assert.falsey t.isScheduled()
