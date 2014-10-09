@@ -1,31 +1,39 @@
 Dateline = require 'dateline'
 
-# Attributes that don't need any processing can be mapped directly.
-ATTRIBUTE_MAPPING =
-  'arrT'    : 'predictedArrivalDatetime'
+STRING_FIELDS =
   'destNm'  : 'destinationName'
-  'destSt'  : 'destinationId'
-  'heading' : 'locationHeading'
-  'isApp'   : 'approachingFlag'
-  'isDly'   : 'delayedFlag'
-  'isFlt'   : 'faultyFlag'
-  'isSch'   : 'scheduledFlag'
-  'lat'     : 'locationLatitude'
-  'lon'     : 'locationLongitude'
-  'prdt'    : 'predictionGenerationDatetime'
-  'rn'      : 'runNumber'
   'rt'      : 'routeId'
-  'staId'   : 'stationId'
   'staNm'   : 'stationName'
   'stpDe'   : 'stopDescription'
-  'stpId'   : 'stopId'
 
 class Train
-  constructor: (attributes={}) ->
-    (@[value] = attributes[key] if attributes[key]) for key, value of ATTRIBUTE_MAPPING
+  constructor: (@attributes = {}) ->
+    # Map string fields that don't need additional processing
+    for attributeName, methodName of STRING_FIELDS
+      @[methodName] = ((value) ->-> value)(@attributes[attributeName])
+
+  ## Boolean Fields
+  isApproaching: -> getNativeBoolean @attributes.isApp
+  isDelayed:     -> getNativeBoolean @attributes.isDly
+  isFaulty:      -> getNativeBoolean @attributes.isFlt
+  isScheduled:   -> getNativeBoolean @attributes.isSch
+
+  ## Date Fields
+  arrivalTime:    -> getNativeDate @attributes.arrT
+  predictionTime: -> getNativeDate @attributes.prdt
+
+  ## Floating Point Fields
+  latitude:  -> getNativeFloat @attributes.lat
+  longitude: -> getNativeFloat @attributes.lon
+
+  ## Generated Fields
+  arrivalMinutes: ->
+    Math.round (@arrivalTime() - @predictionTime()) / (60 * 1000)
+
+  arrivalString:  -> Dateline(@arrivalTime()).getAPTime()
 
   route: ->
-    switch route = @routeId
+    switch route = @routeId()
       when "Brn" then "Brown"
       when "G" then "Green"
       when "Org" then "Orange"
@@ -33,64 +41,57 @@ class Train
       when "Y" then "Yellow"
       else route
 
-  arrivalTime: ->
-    getNativeDate @predictedArrivalDatetime
-
-  arrivalString: ->
-    Dateline(@arrivalTime()).getAPTime()
-
-  predictionTime: ->
-    getNativeDate @predictionGenerationDatetime
-
-  arrivalMinutes: ->
-    Math.round (@arrivalTime() - @predictionTime()) / (60 * 1000)
-
-  isDelayed: ->
-    getNativeBoolean @delayedFlag
-
-  isApproaching: ->
-    getNativeBoolean @approachingFlag
-
-  isScheduled: ->
-    getNativeBoolean @scheduledFlag
-
-  isFaulty: ->
-    getNativeBoolean @faultyFlag
+  ## Integer Fields
+  destinationId: -> getNativeInteger @attributes.destSt
+  directionId:   -> getNativeInteger @attributes.trDr
+  heading:       -> getNativeInteger @attributes.heading
+  runNumber:     -> getNativeInteger @attributes.rn
+  stationId:     -> getNativeInteger @attributes.staId
+  stopId:        -> getNativeInteger @attributes.stpId
 
   toHash: ->
     destination:
-      id: @destinationId
-      name: @destinationName
-    flags:
-      delayed: @isDelayed()
-      approaching: @isApproaching()
-      scheduled: @isScheduled()
-      faulty: @isFaulty()
+      id: @destinationId()
+      name: @destinationName()
     location:
-      lat: @locationLatitude
-      lng: @locationLongitude
-      heading: @locationHeading
+      latitude: @latitude()
+      longitude: @longitude()
+      heading: @heading()
     prediction:
       arrivalMinutes: @arrivalMinutes()
       arrivalString: @arrivalString()
       arrivalTime: @arrivalTime()
       predictionTime: @predictionTime()
     route:
-      id: @routeId
+      id: @routeId()
       name: @route()
-    run: @runNumber
-    stop:
-      id: @stopId
-      description: @stopDescription
+      directionId: @directionId()
+      run: @runNumber()
     station:
-      id: @stationId
-      name: @stationName
+      id: @stationId()
+      name: @stationName()
+      stop:
+        id: @stopId()
+        description: @stopDescription()
+    status:
+      approaching: @isApproaching()
+      delayed: @isDelayed()
+      faulty: @isFaulty()
+      scheduled: @isScheduled()
 
 module.exports = Train
 
-getNativeBoolean = (boolDigit) ->
-  boolDigit == 1
+## Helpers
+
+getNativeBoolean = (booleanString) ->
+  getNativeInteger(booleanString) == 1
 
 getNativeDate = (timeString) ->
   [str, year, month, day, hour, min, sec] = timeString.match /(\d{4})(\d{2})(\d{2}) (\d{2}):(\d{2}):(\d{2})/
   new Date year, month-1, day, hour, min, sec
+
+getNativeFloat = (floatString) ->
+  parseFloat floatString
+
+getNativeInteger = (integerString) ->
+  parseInt integerString, 10
