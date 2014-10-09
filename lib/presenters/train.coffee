@@ -63,9 +63,9 @@ class Train
       arrivalTime: @arrivalTime()
       predictionTime: @predictionTime()
     route:
+      directionId: @directionId()
       id: @routeId()
       name: @route()
-      directionId: @directionId()
       run: @runNumber()
     station:
       id: @stationId()
