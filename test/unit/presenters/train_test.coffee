@@ -1,10 +1,17 @@
 assert = require 'assertive'
 bond = require 'bondjs'
+Dateline = require 'dateline'
 Train = require '../../../lib/presenters/train'
 
 trainWithStubbedProperty = (property, stub) ->
   t = new Train
   bond(t, property).to(stub)
+  t
+
+trainWithStubbedMethod = ([stubbedMethods]) ->
+  t = new Train
+  for method, returnValue of stubbedMethods
+    bond(t, method).return(returnValue)
   t
 
 describe 'Train', ->
@@ -25,6 +32,36 @@ describe 'Train', ->
 
       assert.hasType Date, actual
       assert.equal expected.getTime(), t.predictionTime().getTime()
+
+  describe 'arrivalString', ->
+    beforeEach ->
+      bond(Dateline, 'getAPTime').through()
+
+    it 'calls Dateline for formatting', ->
+      t = trainWithStubbedMethod [arrivalTime: new Date()]
+      t.arrivalString()
+
+  describe 'arrivalMinutes', ->
+    it 'converts time difference to minutes', ->
+      t = trainWithStubbedMethod [
+        arrivalTime: new Date(2014,1,1,12,5,0)
+        predictionTime: new Date(2014,1,1,12,0,0)
+      ]
+      assert.equal 5, t.arrivalMinutes()
+
+    it 'rounds down at < 30 seconds', ->
+      t = trainWithStubbedMethod [
+        arrivalTime: new Date(2014,1,1,12,1,29)
+        predictionTime: new Date(2014,1,1,12,0,0)
+      ]
+      assert.equal 1, t.arrivalMinutes()
+
+    it 'rounds up at > 30 seconds', ->
+      t = trainWithStubbedMethod [
+        arrivalTime: new Date(2014,1,1,12,1,31)
+        predictionTime: new Date(2014,1,1,12,0,0)
+      ]
+      assert.equal 2, t.arrivalMinutes()
 
   describe 'route', ->
     describe 'sets friendly name for abbreviated routes', ->
