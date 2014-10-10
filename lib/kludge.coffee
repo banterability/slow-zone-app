@@ -7,10 +7,6 @@ parser = require './parser'
 module.exports = (app) ->
   client = new Client apiKey: app.get('apiKey')
 
-  getTemplate = (req) ->
-    return 'new_options' if req.query['new']
-    'options'
-
   getAllIncludedLines = (predictions) ->
     chain(predictions.map (predictionSet) ->
       predictionSet.map (t) ->
@@ -34,4 +30,4 @@ module.exports = (app) ->
 
     res.render options.templateName
 
-  return {getTemplate, predictionsForStop, respondWithOptions}
+  return {predictionsForStop, respondWithOptions}
