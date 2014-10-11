@@ -18,7 +18,7 @@ module.exports = (app) ->
       client.getStopPredictions stopId, options, (results) ->
         callback(null, results)
 
-  respondWithOptions = (err, results, res, options = {}) ->
+  respondWithOptions = (err, results, res) ->
     predictions = for response in results
       parser.fromServer response
 
@@ -28,6 +28,6 @@ module.exports = (app) ->
       (train) -> parseInt train.prediction.minutes
     ).value()
 
-    res.render options.templateName
+    res.render 'options'
 
   return {predictionsForStop, respondWithOptions}

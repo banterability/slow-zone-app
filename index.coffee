@@ -26,7 +26,7 @@ app.get '/am', (req, res) ->
   ]
 
   async.parallel requests, (err, results) ->
-    kludge.respondWithOptions err, results, res, templateName: 'options'
+    kludge.respondWithOptions err, results, res
 
 app.get '/pm', (req, res) ->
   requests = [
@@ -34,7 +34,7 @@ app.get '/pm', (req, res) ->
   ]
 
   async.parallel requests, (err, results) ->
-    kludge.respondWithOptions err, results, res, templateName: 'options'
+    kludge.respondWithOptions err, results, res
 
 port = process.env.PORT || 5678
 app.listen port, ->
