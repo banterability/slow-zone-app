@@ -41,6 +41,9 @@ class Train
       when "Y" then "Yellow"
       else route
 
+  routeClass: ->
+    @route().toLowerCase()
+
   ## Integer Fields
   destinationId: -> getNativeInteger @attributes.destSt
   directionId:   -> getNativeInteger @attributes.trDr
@@ -63,6 +66,7 @@ class Train
       arrivalTime: @arrivalTime()
       predictionTime: @predictionTime()
     route:
+      class: @routeClass()
       directionId: @directionId()
       id: @routeId()
       name: @route()

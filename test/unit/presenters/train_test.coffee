@@ -144,6 +144,39 @@ describe 'Train', ->
           t = trainWithAttributes rt: 'Pink'
           assert.equal 'Pink', t.route()
 
+    describe 'routeClass', ->
+      it 'handles the Brown line', ->
+        t = trainWithAttributes rt: 'Brn'
+        assert.equal 'brown', t.routeClass()
+
+      it 'handles the Green line', ->
+        t = trainWithAttributes rt: 'G'
+        assert.equal 'green', t.routeClass()
+
+      it 'handles the Orange line', ->
+        t = trainWithAttributes rt: 'Org'
+        assert.equal 'orange', t.routeClass()
+
+      it 'handles the Purple line', ->
+        t = trainWithAttributes rt: 'P'
+        assert.equal 'purple', t.routeClass()
+
+      it 'handles the Yellow line', ->
+        t = trainWithAttributes rt: 'Y'
+        assert.equal 'yellow', t.routeClass()
+
+      it 'handles the Red line', ->
+        t = trainWithAttributes rt: 'Red'
+        assert.equal 'red', t.routeClass()
+
+      it 'handles the Blue line', ->
+        t = trainWithAttributes rt: 'Blue'
+        assert.equal 'blue', t.routeClass()
+
+      it 'handles the Pink line', ->
+        t = trainWithAttributes rt: 'Pink'
+        assert.equal 'pink', t.routeClass()
+
   describe 'integer fields', ->
     it 'converts destination station ID to an integer', ->
       t = trainWithAttributes destSt: '30182'
