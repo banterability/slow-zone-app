@@ -1,8 +1,8 @@
 <ul class="details">
 {{#predictions}}
-  <li class="cta-train cta-{{train.line.class}}">
-    <span class="bubble">{{ prediction.minutes }}m</span>
-    {{ prediction.arrivalTime }} towards {{train.destination.name}}
+  <li class="cta-train cta-{{route.class}}">
+    <span class="bubble">{{ prediction.arrivalMinutes }}m</span>
+    {{ prediction.arrivalString }} towards {{destination.name}}
   </li>
 {{/predictions}}
 {{^predictions}}
