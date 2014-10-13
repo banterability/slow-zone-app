@@ -1,4 +1,3 @@
-async = require 'async'
 express = require 'express'
 morgan = require 'morgan'
 
@@ -16,25 +15,30 @@ app.use require './lib/middleware/base_url'
 throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
 app.set 'apiKey', process.env.CTA_API_KEY
 
-kludge = require('./lib/kludge')(app)
+# kludge = require './lib/kludge'
+# trainTracker = require('./lib')(app)
+
+{ArrivalBoard} = require('./lib/presenters/arrivalBoard')(app)
 
 app.get '/am', (req, res) ->
-  requests = [
-    kludge.predictionsForStop 30031, {rt: 'P'}
-    kludge.predictionsForStop 30030, {rt: 'Brn'}
-    kludge.predictionsForStop 30261
+  arrivals = new ArrivalBoard [
+    {stopId: 30031, options: {rt: 'P'}}
+    {stopId: 30030, options: {rt: 'Brn'}}
+    {stopId: 30261}
   ]
 
-  async.parallel requests, (err, results) ->
-    kludge.respondWithOptions err, results, res
+  arrivals.fetch (err, results) ->
+    res.locals.predictions = results
+    # res.locals.icon = null
+    res.render 'options'
 
-app.get '/pm', (req, res) ->
-  requests = [
-    kludge.predictionsForStop 30138
-  ]
+# app.get '/pm', (req, res) ->
+#   requests = [
+#     trainTracker.arrivalsForStop 30138
+#   ]
 
-  async.parallel requests, (err, results) ->
-    kludge.respondWithOptions err, results, res
+#   async.parallel requests, (err, results) ->
+#     kludge.respondWithOptions err, results, res
 
 port = process.env.PORT || 5678
 app.listen port, ->
