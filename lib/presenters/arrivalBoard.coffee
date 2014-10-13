@@ -12,7 +12,7 @@ module.exports = (app) ->
 
     arrivalsForStop: (stopId, options = {}) ->
       (callback) ->
-        client.arrivals.byStop stopId, {}, (err, data) ->
+        client.arrivals.byStop stopId, options, (err, data) ->
           callback err, new Schedule(data.eta).toHash()
 
     fetch: (callback) ->
