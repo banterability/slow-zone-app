@@ -1,7 +1,7 @@
 async = require 'async'
 CtaApi = require '../api'
 Schedule = require './schedule'
-{map} = require 'underscore'
+{chain, map} = require 'underscore'
 
 module.exports = (app) ->
 
@@ -19,6 +19,10 @@ module.exports = (app) ->
       requests = map @routes, (route) =>
         @arrivalsForStop route.stopId, route.options
 
-      async.parallel requests, callback
+      async.parallel requests, (err, results) ->
+        unifiedList = chain(results).flatten().sortBy(
+          (result) -> result.prediction.arrivalTime
+        ).value()
+        callback err, unifiedList
 
   {ArrivalBoard}
