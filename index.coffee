@@ -1,6 +1,6 @@
 express = require 'express'
 morgan = require 'morgan'
-{iconForPredictionSet} = require './lib/presenters/icon'
+respondWithPredictions = require './lib/responders'
 
 app = express()
 
@@ -18,14 +18,12 @@ app.set 'apiKey', process.env.CTA_API_KEY
 
 {ArrivalBoard} = require('./lib/presenters/arrivalBoard')(app)
 
+
 app.get '/stop/:stopId', (req, res) ->
   stopId = req.params['stopId']
   arrivals = new ArrivalBoard {stopId}
 
-  arrivals.fetch (err, results) ->
-    res.locals.predictions = results
-    res.locals.icon = iconForPredictionSet results
-    res.render 'options'
+  respondWithPredictions res, arrivals
 
 app.get '/am', (req, res) ->
   arrivals = new ArrivalBoard [
@@ -34,20 +32,14 @@ app.get '/am', (req, res) ->
     {stopId: 30261}
   ]
 
-  arrivals.fetch (err, results) ->
-    res.locals.predictions = results
-    res.locals.icon = iconForPredictionSet results
-    res.render 'options'
+  respondWithPredictions res, arrivals
 
 app.get '/pm', (req, res) ->
   arrivals = new ArrivalBoard [
     {stopId: 30138}
   ]
 
-  arrivals.fetch (err, results) ->
-    res.locals.predictions = results
-    res.locals.icon = iconForPredictionSet results
-    res.render 'options'
+  respondWithPredictions res, arrivals
 
 port = process.env.PORT || 5678
 app.listen port, ->
