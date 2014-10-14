@@ -1,5 +1,6 @@
 express = require 'express'
 morgan = require 'morgan'
+{iconForPredictionSet} = require './lib/presenters/icon'
 
 app = express()
 
@@ -26,7 +27,7 @@ app.get '/am', (req, res) ->
 
   arrivals.fetch (err, results) ->
     res.locals.predictions = results
-    # res.locals.icon = null
+    res.locals.icon = iconForPredictionSet results
     res.render 'options'
 
 app.get '/pm', (req, res) ->
@@ -36,7 +37,7 @@ app.get '/pm', (req, res) ->
 
   arrivals.fetch (err, results) ->
     res.locals.predictions = results
-    # res.locals.icon = null
+    res.locals.icon = iconForPredictionSet results
     res.render 'options'
 
 port = process.env.PORT || 5678

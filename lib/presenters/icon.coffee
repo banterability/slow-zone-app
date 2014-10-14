@@ -1,3 +1,4 @@
+{chain} = require 'underscore'
 Canvas = require 'canvas'
 
 CTA_COLORS =
@@ -66,5 +67,12 @@ getLayoutForItems = (items) ->
 getCTAColor = (line) ->
   CTA_COLORS[line.toLowerCase()]
 
+getAllLinesInPredictionSet = (predictionSet) ->
+  chain(predictionSet).map((train) ->
+    train.route.name
+  ).flatten().uniq().value()
 
-module.exports = {drawIcon}
+iconForPredictionSet = (predictionSet) ->
+  drawIcon getAllLinesInPredictionSet predictionSet
+
+module.exports = {iconForPredictionSet}
