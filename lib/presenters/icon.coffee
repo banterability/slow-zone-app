@@ -66,6 +66,5 @@ getLayoutForItems = (items) ->
 getCTAColor = (line) ->
   CTA_COLORS[line.toLowerCase()]
 
-# drawIcon(['pink', 'brown', 'purple', 'green', 'orange'])
 
 module.exports = {drawIcon}
