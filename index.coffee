@@ -18,6 +18,15 @@ app.set 'apiKey', process.env.CTA_API_KEY
 
 {ArrivalBoard} = require('./lib/presenters/arrivalBoard')(app)
 
+app.get '/stop/:stopId', (req, res) ->
+  stopId = req.params['stopId']
+  arrivals = new ArrivalBoard {stopId}
+
+  arrivals.fetch (err, results) ->
+    res.locals.predictions = results
+    res.locals.icon = iconForPredictionSet results
+    res.render 'options'
+
 app.get '/am', (req, res) ->
   arrivals = new ArrivalBoard [
     {stopId: 30031, options: {rt: 'P'}}
