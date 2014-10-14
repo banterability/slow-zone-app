@@ -29,13 +29,15 @@ app.get '/am', (req, res) ->
     # res.locals.icon = null
     res.render 'options'
 
-# app.get '/pm', (req, res) ->
-#   requests = [
-#     trainTracker.arrivalsForStop 30138
-#   ]
+app.get '/pm', (req, res) ->
+  arrivals = new ArrivalBoard [
+    {stopId: 30138}
+  ]
 
-#   async.parallel requests, (err, results) ->
-#     kludge.respondWithOptions err, results, res
+  arrivals.fetch (err, results) ->
+    res.locals.predictions = results
+    # res.locals.icon = null
+    res.render 'options'
 
 port = process.env.PORT || 5678
 app.listen port, ->
