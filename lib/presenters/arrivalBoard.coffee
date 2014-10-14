@@ -1,7 +1,7 @@
 async = require 'async'
 CtaApi = require '../api'
 Schedule = require './schedule'
-{chain, map} = require 'underscore'
+{chain, isArray, map} = require 'underscore'
 
 module.exports = (app) ->
 
@@ -9,6 +9,7 @@ module.exports = (app) ->
 
   class ArrivalBoard
     constructor: (@routes) ->
+      @routes = [@routes] unless isArray @routes
 
     arrivalsForStop: (stopId, options = {}) ->
       (callback) ->
