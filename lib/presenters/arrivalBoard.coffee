@@ -8,6 +8,7 @@ module.exports = (app) ->
   client = new CtaApi apiKey: app.get 'apiKey'
 
   createPredictions = (predictionData = []) ->
+    predictionData = [predictionData] unless isArray predictionData
     predictionData.map (trainData) -> new Train(trainData).toHash()
 
   class ArrivalBoard
