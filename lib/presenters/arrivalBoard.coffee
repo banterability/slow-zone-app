@@ -27,7 +27,10 @@ module.exports = (app) ->
 
     fetch: (callback) ->
       requests = map @routes, (route) =>
-        @arrivalsForStop route.stopId, route.options
+        if route.stopId
+          @arrivalsForStop route.stopId, route.options
+        else if route.stationId
+          @arrivalsForStation route.stationId, route.options
 
       async.parallel requests, (err, results) ->
         unifiedList = chain(results).flatten().sortBy(
