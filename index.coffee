@@ -25,6 +25,12 @@ app.get '/stop/:stopId', (req, res) ->
 
   respondWithPredictions res, arrivals
 
+app.get '/station/:stationId', (req, res) ->
+  stationId = req.params['stationId']
+  arrivals = new ArrivalBoard {stationId}
+
+  respondWithPredictions res, arrivals
+
 app.get '/am', (req, res) ->
   arrivals = new ArrivalBoard [
     {stopId: 30031, options: {rt: 'P'}}
