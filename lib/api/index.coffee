@@ -22,11 +22,13 @@ class TrainTracker
       qs: extend {}, queryParams, defaultQueryParams
       uri: "#{@baseUrl}/#{endpoint}"
 
-    request apiOptions, (err, res, body) ->
+    request(apiOptions, (err, res, body) ->
       return callback err if err?
       # TODO: handle native errors
       xmlParser.parseString body, (err, result) ->
         callback err, result
+    ).on 'complete', (data) ->
+      console.log '[API]', url: data.request.url.href
 
 module.exports = TrainTracker
 
