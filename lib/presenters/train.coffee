@@ -33,7 +33,7 @@ class Train
   arrivalString:  -> Dateline(@arrivalTime()).getAPTime()
 
   predictionAge: ->
-    (new Date() - @predictionTime()) / 1000
+    Math.round (new Date() - @predictionTime()) / 1000
 
   route: ->
     switch route = @routeId()
