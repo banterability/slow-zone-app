@@ -103,12 +103,12 @@ describe 'Train', ->
         assert.equal 2, t.arrivalMinutes()
 
     describe 'arrivalString', ->
-      beforeEach ->
-        bond(Dateline, 'getAPTime').through()
-
       it 'calls Dateline for formatting', ->
-        t = trainWithStubbedMethod [arrivalTime: new Date()]
-        t.arrivalString()
+        testTime = new Date()
+        t = trainWithStubbedMethod [arrivalTime: testTime]
+        actual = t.arrivalString()
+        expected = Dateline(testTime).getAPTime()
+        assert.equal expected, actual
 
     describe 'predictionAge', ->
       before ->
