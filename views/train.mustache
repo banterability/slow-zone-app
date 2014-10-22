@@ -1,4 +1,9 @@
 <li class="cta-train cta-{{route.class}}">
-  <span class="bubble">{{ prediction.arrivalMinutes }}m</span>
-  {{ prediction.arrivalString }} {{#status.scheduled}}(scheduled){{/status.scheduled}} towards {{destination.name}}
+  <figure>
+    {{ prediction.arrivalMinutes }}m
+  </figure>
+  <figcaption>
+    <div class="prediction">{{ prediction.arrivalString }} {{#status.scheduled}}(scheduled){{/status.scheduled}} towards {{destination.name}}</div>
+    <div class="prediction-age">predicted {{ prediction.predictionAge }}s ago</div>
+  </figcaption>
 </li>
