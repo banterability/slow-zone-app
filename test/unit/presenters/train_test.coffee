@@ -1,6 +1,7 @@
 assert = require 'assertive'
 bond = require 'bondjs'
 Dateline = require 'dateline'
+timekeeper = require 'timekeeper'
 Train = require '../../../lib/presenters/train'
 
 trainWithAttributes = (attributes) ->
@@ -108,6 +109,17 @@ describe 'Train', ->
       it 'calls Dateline for formatting', ->
         t = trainWithStubbedMethod [arrivalTime: new Date()]
         t.arrivalString()
+
+    describe 'predictionAge', ->
+      before ->
+        timekeeper.freeze new Date(2014, 9, 7, 14, 50, 57)
+
+      after ->
+        timekeeper.reset()
+
+      it 'returns seconds since prediction time', ->
+        t = trainWithAttributes prdt: '20141007 14:49:27'
+        assert.equal 90, t.predictionAge()
 
     describe 'route', ->
       describe 'sets friendly name for abbreviated routes', ->

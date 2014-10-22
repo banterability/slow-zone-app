@@ -1,10 +1,17 @@
 assert = require 'assertive'
+timekeeper = require 'timekeeper'
 Train = require '../../../lib/presenters/train'
 {loadJSONMock} = require '../../helpers'
 
 mockTrain = loadJSONMock 'train.json'
 
 describe 'Train', ->
+  before ->
+    timekeeper.freeze new Date(2014, 9, 7, 14, 50, 57)
+
+  after ->
+    timekeeper.reset()
+
   it 'exists', ->
     assert.truthy Train
 
@@ -40,6 +47,10 @@ describe 'Train', ->
         expected = new Date(2014, 9, 7, 14, 50, 27).getTime()
         actual = @train.prediction.arrivalTime.getTime()
         assert.equal expected, actual
+
+      it 'presents the number of seconds since the predicion was generated', ->
+        actual = @train.prediction.predictionAge
+        assert.equal 90, actual
 
       it 'presents the original prediction time as a native JS date', ->
         expected = new Date(2014, 9, 7, 14, 49, 27).getTime()

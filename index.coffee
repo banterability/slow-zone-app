@@ -6,6 +6,7 @@ app = express()
 
 app.set 'view engine', 'mustache'
 app.set 'layout', 'layout'
+app.set 'partials', {'train'}
 app.engine 'mustache', require 'hogan-express'
 app.enable 'view cache' if app.settings.env is "production"
 

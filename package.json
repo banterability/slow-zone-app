@@ -22,7 +22,8 @@
     "grunt-contrib-watch": "^0.6.1",
     "mocha": "^1.21.4",
     "nib": "^1.0.4",
-    "stylus": "^0.49.1"
+    "stylus": "^0.49.1",
+    "timekeeper": "0.0.4"
   },
   "scripts": {
     "start": "coffee index.coffee",
