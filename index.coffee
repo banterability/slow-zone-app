@@ -1,6 +1,6 @@
 express = require 'express'
 morgan = require 'morgan'
-respondWithPredictions = require './lib/responders'
+{respondForStation} = require './lib/responders'
 
 app = express()
 
@@ -22,13 +22,13 @@ app.get '/stop/:stopId', (req, res) ->
   stopId = req.params.stopId
   arrivals = new ArrivalBoard {stopId}
 
-  respondWithPredictions res, arrivals
+  respondForStation res, arrivals
 
 app.get '/station/:stationId', (req, res) ->
   stationId = req.params.stationId
   arrivals = new ArrivalBoard {stationId}
 
-  respondWithPredictions res, arrivals
+  respondForStation res, arrivals
 
 app.get '/am', (req, res) ->
   arrivals = new ArrivalBoard [
@@ -37,14 +37,15 @@ app.get '/am', (req, res) ->
     {stopId: 30261}
   ]
 
-  respondWithPredictions res, arrivals
+  respondForStation res, arrivals
 
 app.get '/pm', (req, res) ->
   arrivals = new ArrivalBoard [
     {stopId: 30138}
   ]
 
-  respondWithPredictions res, arrivals
+  respondForStation res, arrivals
+
 
 port = process.env.PORT || 5678
 app.listen port, ->
