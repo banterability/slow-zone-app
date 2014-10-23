@@ -8,7 +8,7 @@ class TrainTracker
   constructor: (options) ->
     @baseUrl = 'http://lapi.transitchicago.com/api/1.0'
     @apiKey = options.apiKey
-    @registerEndpoints 'arrivals'
+    @registerEndpoints namespace for namespace in ['arrivals', 'follow']
 
   registerEndpoints: (namespace) ->
     endpoint = require("./endpoints/#{namespace}")(this)
