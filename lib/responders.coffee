@@ -7,3 +7,7 @@ module.exports =
       res.locals.icon = iconForPredictionSet results
       res.render 'arrivals'
 
+  respondForTrain: (res, schedule) ->
+    schedule.fetch (err, results) ->
+      res.locals.schedule = results
+      res.render 'follow'

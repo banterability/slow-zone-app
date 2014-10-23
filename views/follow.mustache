@@ -1,0 +1,10 @@
+<ul class="details">
+{{#schedule}}
+  <li class="cta-train cta-{{route.class}}">
+    <p>{{station.name}} – {{prediction.arrivalMinutes}}m ({{prediction.arrivalString}})</p>
+  </li>
+{{/schedule}}
+{{^schedule}}
+  <li>No trains</li>
+{{/schedule}}
+</ul>

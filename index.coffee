@@ -1,6 +1,6 @@
 express = require 'express'
 morgan = require 'morgan'
-{respondForStation} = require './lib/responders'
+{respondForStation, respondForTrain} = require './lib/responders'
 
 app = express()
 
@@ -17,6 +17,7 @@ throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KE
 app.set 'apiKey', process.env.CTA_API_KEY
 
 {ArrivalBoard} = require('./lib/presenters/arrivalBoard')(app)
+{Schedule} = require('./lib/presenters/schedule')(app)
 
 app.get '/stop/:stopId', (req, res) ->
   stopId = req.params.stopId
@@ -46,6 +47,11 @@ app.get '/pm', (req, res) ->
 
   respondForStation res, arrivals
 
+app.get '/follow/:run', (req, res) ->
+  runId = req.params.run
+  runSchedule = new Schedule runId
+
+  respondForTrain res, runSchedule
 
 port = process.env.PORT || 5678
 app.listen port, ->
