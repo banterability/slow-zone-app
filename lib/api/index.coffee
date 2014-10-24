@@ -24,8 +24,8 @@ class TrainTracker
 
     request(apiOptions, (err, res, body) ->
       return callback err if err?
-      # TODO: handle native errors
       xmlParser.parseString body, (err, result) ->
+        return callback new Error "#{result.ctatt.errCd} – #{result.ctatt.errNm}" if result.ctatt.errCd != "0"
         callback err, result
     ).on 'complete', (data) ->
       console.log '[API]', url: data.request.url.href

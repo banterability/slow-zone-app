@@ -18,12 +18,12 @@ module.exports = (app) ->
     arrivalsForStation: (stationId, options = {}) ->
       (callback) ->
         client.arrivals.byStation stationId, options, (err, data) ->
-          callback err, createPredictions data.eta
+          callback err, createPredictions data?.eta
 
     arrivalsForStop: (stopId, options = {}) ->
       (callback) ->
         client.arrivals.byStop stopId, options, (err, data) ->
-          callback err, createPredictions data.eta
+          callback err, createPredictions data?.eta
 
     fetch: (callback) ->
       requests = map @routes, (route) =>
@@ -33,9 +33,10 @@ module.exports = (app) ->
           @arrivalsForStation route.stationId, route.options
 
       async.parallel requests, (err, results) ->
+        return callback err, null if err
         unifiedList = chain(results).flatten().sortBy(
           (result) -> result.prediction.arrivalTime
         ).value()
-        callback err, unifiedList
+        callback null, unifiedList
 
   {ArrivalBoard}
