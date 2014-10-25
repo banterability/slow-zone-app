@@ -1,5 +1,9 @@
 {iconForPredictionSet} = require './presenters/icon'
 
+createHeader = (results) ->
+  train = results[0]
+  "#{train.route.name} ##{train.route.run} towards #{train.destination.name}"
+
 respondWithError = (res, errorMessage) ->
   res.locals.message = errorMessage
   res.render 'error'
@@ -16,4 +20,5 @@ module.exports =
     schedule.fetch (err, results) ->
       return respondWithError res, err.toString() if err
       res.locals.schedule = results
+      res.locals.header = createHeader results
       res.render 'follow'
