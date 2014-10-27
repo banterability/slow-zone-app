@@ -7,7 +7,7 @@ STRING_FIELDS =
   'stpDe'   : 'stopDescription'
 
 class Train
-  constructor: (@attributes = {}) ->
+  constructor: (@attributes = {}, @options = {}) ->
     # Map string fields that don't need additional processing
     for attributeName, methodName of STRING_FIELDS
       @[methodName] = ((value) ->-> value)(@attributes[attributeName])
@@ -31,6 +31,9 @@ class Train
     Math.round (@arrivalTime() - @predictionTime()) / (60 * 1000)
 
   arrivalString:  -> Dateline(@arrivalTime()).getAPTime()
+
+  highlight: ->
+    parseInt(@options.highlightStop, 10) == @stopId()
 
   predictionAge: ->
     Math.round (new Date() - @predictionTime()) / 1000
@@ -59,6 +62,7 @@ class Train
     destination:
       id: @destinationId()
       name: @destinationName()
+    highlight: @highlight()
     location:
       latitude: @latitude()
       longitude: @longitude()

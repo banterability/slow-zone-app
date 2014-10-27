@@ -6,7 +6,7 @@
       </figure>
       <figcaption>
         <div class="prediction">{{ prediction.arrivalString }} {{#status.scheduled}}(scheduled){{/status.scheduled}} towards {{destination.name}}</div>
-        <div class="prediction-age"><a href="/follow/{{route.run}}">follow</a> – predicted {{ prediction.predictionAge }}s ago</div>
+        <div class="prediction-age"><a href="/follow/{{route.run}}?stop={{station.stop.id}}">follow</a> – predicted {{ prediction.predictionAge }}s ago</div>
       </figcaption>
     </li>
   {{/predictions}}

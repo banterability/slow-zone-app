@@ -5,14 +5,14 @@ module.exports = (app) ->
 
   client = new CtaApi apiKey: app.get 'apiKey'
 
-  createSchedule = (scheduleData = []) ->
-    (new Train(trainData).toHash() for trainData in scheduleData)
+  createSchedule = (scheduleData = [], options = {}) ->
+    (new Train(trainData, options).toHash() for trainData in scheduleData)
 
   class Schedule
-    constructor: (@runNumber) ->
+    constructor: (@runNumber, @options = {}) ->
 
     fetch: (callback) ->
-      client.follow.train @runNumber, (err, data) ->
-        callback err, createSchedule data?.eta
+      client.follow.train @runNumber, (err, data) =>
+        callback err, createSchedule data?.eta, @options
 
   {Schedule}
