@@ -3,7 +3,13 @@
 <ul class="details">
 {{#schedule}}
   <li class="cta-train cta-{{route.class}}">
-    <p>{{station.name}} – {{prediction.arrivalMinutes}}m ({{prediction.arrivalString}})</p>
+    <figure>
+      {{ prediction.arrivalMinutes }}m
+    </figure>
+    <figcaption>
+      <div class="prediction">{{station.name}}</div>
+      <div class="prediction-age">{{ prediction.arrivalString }} – predicted {{ prediction.predictionAge }}s ago</div>
+    </figcaption>
   </li>
 {{/schedule}}
 {{^schedule}}
