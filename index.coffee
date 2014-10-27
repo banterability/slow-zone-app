@@ -1,4 +1,6 @@
+baseUrlMiddleware = require './lib/middleware/base_url'
 express = require 'express'
+hogan = require 'hogan-express'
 morgan = require 'morgan'
 {respondForStation, respondForTrain} = require './lib/responders'
 
@@ -6,12 +8,12 @@ app = express()
 
 app.set 'view engine', 'mustache'
 app.set 'layout', 'layout'
-app.engine 'mustache', require 'hogan-express'
+app.engine 'mustache', hogan
 app.enable 'view cache' if app.settings.env is "production"
 
 app.use morgan('short')
 app.use "/assets", express.static "#{__dirname}/public"
-app.use require './lib/middleware/base_url'
+app.use baseUrlMiddleware
 
 throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
 app.set 'apiKey', process.env.CTA_API_KEY

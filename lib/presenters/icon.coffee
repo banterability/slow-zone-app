@@ -1,5 +1,5 @@
-{chain} = require 'underscore'
 Canvas = require 'canvas'
+{chain} = require 'underscore'
 
 CTA_COLORS =
   blue: '#00A1DE'

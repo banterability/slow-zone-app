@@ -1,7 +1,7 @@
 async = require 'async'
+{chain, isArray, map} = require 'underscore'
 CtaApi = require '../api'
 Train = require './train'
-{chain, isArray, map} = require 'underscore'
 
 module.exports = (app) ->
 

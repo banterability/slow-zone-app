@@ -1,7 +1,7 @@
 assert = require 'assertive'
+{loadJSONMock} = require '../../helpers'
 timekeeper = require 'timekeeper'
 Train = require '../../../lib/presenters/train'
-{loadJSONMock} = require '../../helpers'
 
 mockTrain = loadJSONMock 'train.json'
 
