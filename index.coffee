@@ -25,13 +25,13 @@ app.get '/stop/:stopId', (req, res) ->
   stopId = req.params.stopId
   arrivals = new ArrivalBoard {stopId}
 
-  respondForStation res, arrivals
+  respondForStation res, arrivals, {header: 'stop'}
 
 app.get '/station/:stationId', (req, res) ->
   stationId = req.params.stationId
   arrivals = new ArrivalBoard {stationId}
 
-  respondForStation res, arrivals
+  respondForStation res, arrivals, {header: 'station'}
 
 app.get '/am', (req, res) ->
   arrivals = new ArrivalBoard [
