@@ -6,7 +6,9 @@ transform = require 'stream-transform'
 unzip = require 'unzip'
 
 GTFS_DATA_URL = "http://www.transitchicago.com/downloads/sch_data/google_transit.zip"
+STATION_DATA_FILE = "#{__dirname}/stations.json"
 
+fs.unlinkSync STATION_DATA_FILE if fs.existsSync STATION_DATA_FILE
 
 # Helpers
 logProgress = (message, level) ->
@@ -58,7 +60,7 @@ parseStationData = transform((record, callback) ->
 jsonWriter = JSONStream.stringify '{"stations":[', ',', ']}\n'
   .on 'end', -> logProgress 'Saving as JSON', 4
 
-writeFile = fs.createWriteStream "data/stations-#{+(new Date)}.json"
+writeFile = fs.createWriteStream STATION_DATA_FILE
   .on 'finish', ->
     console.log 'Done.'
     process.exit() # Just die
