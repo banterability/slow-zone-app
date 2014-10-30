@@ -3,6 +3,7 @@ bodyParser = require 'body-parser'
 express = require 'express'
 hogan = require 'hogan-express'
 morgan = require 'morgan'
+{nearbyStations} = require './lib/presenters/station'
 {respondForStation, respondForTrain} = require './lib/responders'
 
 app = express()
@@ -56,6 +57,10 @@ app.get '/follow/:run', (req, res) ->
   runSchedule = new Schedule runId, {highlightStop: req.query.stop}
 
   respondForTrain res, runSchedule
+
+app.post '/locate', (req, res) ->
+  results = nearbyStations {latitude: req.body.lat, longitude: req.body.lng}, 3
+  res.send closestStations: results
 
 port = process.env.PORT || 5678
 app.listen port, ->
