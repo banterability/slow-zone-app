@@ -1,4 +1,5 @@
 baseUrlMiddleware = require './lib/middleware/base_url'
+bodyParser = require 'body-parser'
 express = require 'express'
 hogan = require 'hogan-express'
 morgan = require 'morgan'
@@ -11,6 +12,7 @@ app.set 'layout', 'layout'
 app.engine 'mustache', hogan
 app.enable 'view cache' if app.settings.env is "production"
 
+app.use bodyParser.json()
 app.use morgan('short')
 app.use "/assets", express.static "#{__dirname}/public"
 app.use baseUrlMiddleware
