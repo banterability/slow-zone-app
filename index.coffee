@@ -58,6 +58,9 @@ app.get '/follow/:run', (req, res) ->
 
   respondForTrain res, runSchedule
 
+app.get '/nearby', (req, res) ->
+  res.render 'nearby'
+
 app.post '/locate', (req, res) ->
   results = nearbyStations {latitude: req.body.lat, longitude: req.body.lng}, 3
   res.send closestStations: results
