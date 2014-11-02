@@ -11,5 +11,8 @@
   </head>
   <body>
     {{{ yield }}}
+    {{#scripts}}
+      <script src="{{url}}"></script>
+    {{/scripts}}
   </body>
 </html>

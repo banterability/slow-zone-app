@@ -59,6 +59,10 @@ app.get '/follow/:run', (req, res) ->
   respondForTrain res, runSchedule
 
 app.get '/nearby', (req, res) ->
+  res.locals.scripts = [
+    {url: '/assets/vendor/jaxx.js'}
+    {url: '/assets/nearby.js'}
+  ]
   res.render 'nearby'
 
 app.post '/locate', (req, res) ->
