@@ -1,13 +1,19 @@
 (function() {
-  var appendElToList, resultsList;
+  var appendElToList, hideSpinner, resultsListEl, spinnerEl;
 
-  resultsList = document.querySelector('.details');
+  resultsListEl = document.querySelector('.details');
+
+  spinnerEl = document.querySelector('.spinner');
 
   appendElToList = function(contents) {
     var el;
     el = document.createElement('li');
     el.textContent = contents;
-    return resultsList.appendChild(el);
+    return resultsListEl.appendChild(el);
+  };
+
+  hideSpinner = function() {
+    return spinnerEl.remove();
   };
 
   if ((typeof navigator !== "undefined" && navigator !== null ? navigator.geolocation : void 0) != null) {
@@ -20,6 +26,7 @@
       };
       successCallback = function() {
         var result, results, _i, _len, _ref, _results;
+        hideSpinner();
         results = JSON.parse(this.responseText);
         _ref = results.closestStations;
         _results = [];
@@ -30,12 +37,14 @@
         return _results;
       };
       errorCallback = function() {
-        return appendElToList('Geolocation request failed');
+        hideSpinner();
+        return appendElToList('Sorry, we were unable to find your location.');
       };
       return Jaxx.post('/locate', payload, successCallback, errorCallback);
     });
   } else {
-    appendElToList('Cannot locate');
+    hideSpinner();
+    appendElToList('Sorry, your browser does not support finding your location.');
   }
 
 }).call(this);

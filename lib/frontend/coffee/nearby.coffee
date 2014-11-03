@@ -1,10 +1,13 @@
-resultsList = document.querySelector '.details'
+resultsListEl = document.querySelector '.details'
+spinnerEl = document.querySelector '.spinner'
 
 appendElToList = (contents) ->
   el = document.createElement 'li'
   el.textContent = contents
-  resultsList.appendChild el
+  resultsListEl.appendChild el
 
+hideSpinner = ->
+  spinnerEl.remove()
 
 if navigator?.geolocation?
   console.log 'starting'
@@ -15,14 +18,17 @@ if navigator?.geolocation?
     }
 
     successCallback = ->
+      hideSpinner()
       results = JSON.parse(this.responseText)
       for result in results.closestStations
         appendElToList "#{result.name} – #{result.distance.miles.toFixed(2)} mi"
 
     errorCallback = ->
-      appendElToList 'Geolocation request failed'
+      hideSpinner()
+      appendElToList 'Sorry, we were unable to find your location.'
 
     Jaxx.post '/locate', payload, successCallback, errorCallback
 
 else
-  appendElToList 'Cannot locate'
+  hideSpinner()
+  appendElToList 'Sorry, your browser does not support finding your location.'
