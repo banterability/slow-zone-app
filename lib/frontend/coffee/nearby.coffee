@@ -1,17 +1,28 @@
-console.log 'navigator', navigator
+resultsList = document.querySelector '.details'
 
-# if 'geolocation' in navigator
+appendElToList = (contents) ->
+  el = document.createElement 'li'
+  el.textContent = contents
+  resultsList.appendChild el
 
-navigator.geolocation.getCurrentPosition (position) ->
-  payload = {
-    lat: position.coords.latitude
-    lng: position.coords.longitude
-  }
 
-  successCallback = ->
-    console.log 'success', this.responseText
+if navigator?.geolocation?
+  console.log 'starting'
+  navigator.geolocation.getCurrentPosition (position) ->
+    payload = {
+      lat: position.coords.latitude
+      lng: position.coords.longitude
+    }
 
-  errorCallback = ->
-    alert 'error: everything broke'
+    successCallback = ->
+      results = JSON.parse(this.responseText)
+      for result in results.closestStations
+        appendElToList "#{result.name} – #{result.distance.miles.toFixed(2)} mi"
 
-  Jaxx.post '/locate', payload, successCallback, errorCallback
+    errorCallback = ->
+      appendElToList 'Geolocation request failed'
+
+    Jaxx.post '/locate', payload, successCallback, errorCallback
+
+else
+  appendElToList 'Cannot locate'
