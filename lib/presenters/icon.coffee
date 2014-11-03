@@ -75,4 +75,4 @@ getAllLinesInPredictionSet = (predictionSet) ->
 iconForPredictionSet = (predictionSet) ->
   drawIcon getAllLinesInPredictionSet predictionSet
 
-module.exports = {iconForPredictionSet}
+module.exports = {drawIcon, iconForPredictionSet}

@@ -3,6 +3,7 @@ bodyParser = require 'body-parser'
 express = require 'express'
 hogan = require 'hogan-express'
 morgan = require 'morgan'
+{drawIcon} = require './lib/presenters/icon'
 {nearbyStations} = require './lib/presenters/station'
 {respondForStation, respondForTrain} = require './lib/responders'
 
@@ -63,6 +64,7 @@ app.get '/nearby', (req, res) ->
     {url: '/assets/vendor/jaxx.js'}
     {url: '/assets/nearby.js'}
   ]
+  res.locals.icon = drawIcon ['green', 'orange', 'red', 'blue', 'purple', 'brown']
   res.render 'nearby'
 
 app.post '/locate', (req, res) ->
