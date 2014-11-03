@@ -8,8 +8,8 @@ appendStationEl = ({distance, stationName, stationUrl}) ->
   markup = """
     <figure>#{distance}<span class="units">mi</span></figure>
     <figcaption>
-      <div class="prediction">#{stationName}</div>
-      <div class="prediction-age">
+      <div class="main-line">#{stationName}</div>
+      <div class="second-line">
         <a href="#{stationUrl}">Arrivals</a>
       </div>
     </figcaption>
