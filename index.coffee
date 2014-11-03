@@ -66,6 +66,10 @@ app.get '/nearby', (req, res) ->
   res.render 'nearby'
 
 app.post '/locate', (req, res) ->
+  unless req.body.lat and req.body.lng
+    res.statusCode = 400
+    res.send error: 'invalid request'
+
   results = nearbyStations {latitude: req.body.lat, longitude: req.body.lng}, 3
   res.send closestStations: results
 
