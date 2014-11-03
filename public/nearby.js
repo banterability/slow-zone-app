@@ -39,6 +39,9 @@
       };
       successCallback = function() {
         var result, results, _i, _len, _ref, _results;
+        if (this.status !== 200) {
+          return errorCallback();
+        }
         hideSpinner();
         results = JSON.parse(this.responseText);
         _ref = results.closestStations;

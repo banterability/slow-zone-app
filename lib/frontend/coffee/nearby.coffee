@@ -37,6 +37,8 @@ getNearbyStations = ->
     }
 
     successCallback = ->
+      return errorCallback() unless this.status == 200
+
       hideSpinner()
       results = JSON.parse(this.responseText)
       for result in results.closestStations
