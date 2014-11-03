@@ -47,3 +47,5 @@
   }
 
 }).call(this);
+
+//# sourceMappingURL=nearby.js.map

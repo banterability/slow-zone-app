@@ -6,6 +6,8 @@ module.exports = (grunt) ->
       compile:
         files:
           'public/nearby.js': 'lib/frontend/coffee/nearby.coffee'
+        options:
+          sourceMap: true
     stylus:
       compile:
         files:
