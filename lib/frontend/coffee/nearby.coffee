@@ -4,43 +4,22 @@ spinnerEl = document.querySelector '.spinner'
 appendElToList = (el) ->
   resultsListEl.appendChild el
 
-appendLinkEl = (linkHref, linkText, otherText) ->
-  el = document.createElement 'li'
-  el.classList.add 'cta-train'
+appendStationEl = ({distance, stationName, stationUrl}) ->
+  markup = """
+    <figure>#{distance}<span class="units">mi</span></figure>
+    <figcaption>
+      <div class="prediction">#{stationName}</div>
+      <div class="prediction-age">
+        <a href="#{stationUrl}">Arrivals</a>
+      </div>
+    </figcaption>
+  """
 
-  figureEl = document.createElement 'figure'
+  listEl = document.createElement 'li'
+  listEl.classList.add 'cta-train'
+  listEl.innerHTML = markup
 
-  distance = document.createTextNode otherText
-
-  figureUnitEl = document.createElement 'span'
-  figureUnitEl.classList.add 'units'
-  figureUnitEl.textContent = 'mi'
-
-  figureEl.appendChild distance
-  figureEl.appendChild figureUnitEl
-
-  el.appendChild figureEl
-
-  figCaptionEl = document.createElement 'figcaption'
-
-  firstLineEl = document.createElement 'div'
-  firstLineEl.classList.add 'prediction'
-  firstLineEl.textContent = linkText
-
-  secondLineEl = document.createElement 'div'
-  secondLineEl.classList.add 'prediction-age'
-
-  link = document.createElement 'a'
-  link.href = linkHref
-  link.textContent = 'Arrivals'
-  secondLineEl.appendChild link
-
-  figCaptionEl.appendChild firstLineEl
-  figCaptionEl.appendChild secondLineEl
-
-  el.appendChild figCaptionEl
-
-  appendElToList el
+  appendElToList listEl
 
 appendTextEl = (contents) ->
   el = document.createElement 'li'
@@ -61,7 +40,11 @@ getNearbyStations = ->
       hideSpinner()
       results = JSON.parse(this.responseText)
       for result in results.closestStations
-        appendLinkEl "/station/#{result.id}", "#{result.name}", result.distance.miles.toFixed(1)
+        appendStationEl {
+          distance: result.distance.miles.toFixed(1)
+          stationName: result.name
+          stationUrl: "/station/#{result.id}"
+        }
 
     errorCallback = ->
       hideSpinner()

@@ -1,5 +1,5 @@
 (function() {
-  var appendElToList, appendLinkEl, appendTextEl, getNearbyStations, hideSpinner, init, resultsListEl, spinnerEl;
+  var appendElToList, appendStationEl, appendTextEl, getNearbyStations, hideSpinner, init, resultsListEl, spinnerEl;
 
   resultsListEl = document.querySelector('.details');
 
@@ -9,32 +9,14 @@
     return resultsListEl.appendChild(el);
   };
 
-  appendLinkEl = function(linkHref, linkText, otherText) {
-    var distance, el, figCaptionEl, figureEl, figureUnitEl, firstLineEl, link, secondLineEl;
-    el = document.createElement('li');
-    el.classList.add('cta-train');
-    figureEl = document.createElement('figure');
-    distance = document.createTextNode(otherText);
-    figureUnitEl = document.createElement('span');
-    figureUnitEl.classList.add('units');
-    figureUnitEl.textContent = 'mi';
-    figureEl.appendChild(distance);
-    figureEl.appendChild(figureUnitEl);
-    el.appendChild(figureEl);
-    figCaptionEl = document.createElement('figcaption');
-    firstLineEl = document.createElement('div');
-    firstLineEl.classList.add('prediction');
-    firstLineEl.textContent = linkText;
-    secondLineEl = document.createElement('div');
-    secondLineEl.classList.add('prediction-age');
-    link = document.createElement('a');
-    link.href = linkHref;
-    link.textContent = 'Arrivals';
-    secondLineEl.appendChild(link);
-    figCaptionEl.appendChild(firstLineEl);
-    figCaptionEl.appendChild(secondLineEl);
-    el.appendChild(figCaptionEl);
-    return appendElToList(el);
+  appendStationEl = function(_arg) {
+    var distance, listEl, markup, stationName, stationUrl;
+    distance = _arg.distance, stationName = _arg.stationName, stationUrl = _arg.stationUrl;
+    markup = "<figure>" + distance + "<span class=\"units\">mi</span></figure>\n<figcaption>\n  <div class=\"prediction\">" + stationName + "</div>\n  <div class=\"prediction-age\">\n    <a href=\"" + stationUrl + "\">Arrivals</a>\n  </div>\n</figcaption>";
+    listEl = document.createElement('li');
+    listEl.classList.add('cta-train');
+    listEl.innerHTML = markup;
+    return appendElToList(listEl);
   };
 
   appendTextEl = function(contents) {
@@ -63,7 +45,11 @@
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           result = _ref[_i];
-          _results.push(appendLinkEl("/station/" + result.id, "" + result.name, result.distance.miles.toFixed(1)));
+          _results.push(appendStationEl({
+            distance: result.distance.miles.toFixed(1),
+            stationName: result.name,
+            stationUrl: "/station/" + result.id
+          }));
         }
         return _results;
       };
