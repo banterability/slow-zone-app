@@ -17,7 +17,6 @@
   };
 
   if ((typeof navigator !== "undefined" && navigator !== null ? navigator.geolocation : void 0) != null) {
-    console.log('starting');
     navigator.geolocation.getCurrentPosition(function(position) {
       var errorCallback, payload, successCallback;
       payload = {

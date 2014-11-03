@@ -10,7 +10,6 @@ hideSpinner = ->
   spinnerEl.remove()
 
 if navigator?.geolocation?
-  console.log 'starting'
   navigator.geolocation.getCurrentPosition (position) ->
     payload = {
       lat: position.coords.latitude
