@@ -1,15 +1,56 @@
 resultsListEl = document.querySelector '.details'
 spinnerEl = document.querySelector '.spinner'
 
-appendElToList = (contents) ->
+appendElToList = (el) ->
+  resultsListEl.appendChild el
+
+appendLinkEl = (linkHref, linkText, otherText) ->
+  el = document.createElement 'li'
+  el.classList.add 'cta-train'
+
+  figureEl = document.createElement 'figure'
+
+  distance = document.createTextNode otherText
+
+  figureUnitEl = document.createElement 'span'
+  figureUnitEl.classList.add 'units'
+  figureUnitEl.textContent = 'mi'
+
+  figureEl.appendChild distance
+  figureEl.appendChild figureUnitEl
+
+  el.appendChild figureEl
+
+  figCaptionEl = document.createElement 'figcaption'
+
+  firstLineEl = document.createElement 'div'
+  firstLineEl.classList.add 'prediction'
+  firstLineEl.textContent = linkText
+
+  secondLineEl = document.createElement 'div'
+  secondLineEl.classList.add 'prediction-age'
+
+  link = document.createElement 'a'
+  link.href = linkHref
+  link.textContent = 'Arrivals'
+  secondLineEl.appendChild link
+
+  figCaptionEl.appendChild firstLineEl
+  figCaptionEl.appendChild secondLineEl
+
+  el.appendChild figCaptionEl
+
+  appendElToList el
+
+appendTextEl = (contents) ->
   el = document.createElement 'li'
   el.textContent = contents
-  resultsListEl.appendChild el
+  appendElToList el
 
 hideSpinner = ->
   spinnerEl.remove()
 
-if navigator?.geolocation?
+getNearbyStations = ->
   navigator.geolocation.getCurrentPosition (position) ->
     payload = {
       lat: position.coords.latitude
@@ -20,14 +61,19 @@ if navigator?.geolocation?
       hideSpinner()
       results = JSON.parse(this.responseText)
       for result in results.closestStations
-        appendElToList "#{result.name} – #{result.distance.miles.toFixed(2)} mi"
+        appendLinkEl "/station/#{result.id}", "#{result.name}", result.distance.miles.toFixed(1)
 
     errorCallback = ->
       hideSpinner()
-      appendElToList 'Sorry, we were unable to find your location.'
+      appendTextEl 'Sorry, we were unable to find your location.'
 
     Jaxx.post '/locate', payload, successCallback, errorCallback
 
-else
-  hideSpinner()
-  appendElToList 'Sorry, your browser does not support finding your location.'
+init = ->
+  if navigator?.geolocation?
+    getNearbyStations()
+  else
+    hideSpinner()
+    appendTextEl 'Sorry, your browser does not support finding your location.'
+
+init()
