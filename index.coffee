@@ -65,6 +65,7 @@ app.get '/nearby', (req, res) ->
     {url: '/assets/nearby.js'}
   ]
   res.locals.icon = drawIcon ['blue', 'orange', 'red', 'brown', 'green', 'purple']
+  res.locals.header = 'Nearby Stations'
   res.render 'nearby'
 
 app.post '/locate', (req, res) ->
