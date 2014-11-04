@@ -14,7 +14,7 @@ presentDistance = (meters) ->
   miles: geolib.convertUnit 'mi', meters
 
 nearbyStations = (coordinates, limit=1) ->
-  nearest = geolib.findNearest coordinates, STATION_COORDINATES, 1, limit
+  nearest = geolib.findNearest coordinates, STATION_COORDINATES, 0, limit
   nearest = [nearest] unless isArray nearest
 
   map nearest, (nearbyStation) ->
