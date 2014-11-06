@@ -9,21 +9,21 @@ morgan = require 'morgan'
 
 app = express()
 
-app.set 'view engine', 'mustache'
-app.set 'layout', 'layout'
-app.engine 'mustache', hogan
-app.enable 'view cache' if app.settings.env is "production"
+throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
+app.set 'apiKey', process.env.CTA_API_KEY
+
+{ArrivalBoard} = require('./lib/presenters/arrivalBoard')(app)
+{Schedule} = require('./lib/presenters/schedule')(app)
 
 app.use bodyParser.json()
 app.use morgan('short')
 app.use "/assets", express.static "#{__dirname}/public"
 app.use baseUrlMiddleware
 
-throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
-app.set 'apiKey', process.env.CTA_API_KEY
-
-{ArrivalBoard} = require('./lib/presenters/arrivalBoard')(app)
-{Schedule} = require('./lib/presenters/schedule')(app)
+app.set 'view engine', 'mustache'
+app.set 'layout', 'layout'
+app.engine 'mustache', hogan
+app.enable 'view cache' if app.settings.env is "production"
 
 app.get '/stop/:stopId', (req, res) ->
   stopId = req.params.stopId
