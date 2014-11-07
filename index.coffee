@@ -76,9 +76,10 @@ app.post '/locate', (req, res) ->
   results = nearbyStations {latitude: req.body.lat, longitude: req.body.lng}, 3
   res.send closestStations: results
 
-app.get '/lib/frontend/coffee/:sourcefile', (req, res) ->
-  fs = require 'fs'
-  fs.createReadStream("#{__dirname}/lib/frontend/coffee/#{req.params.sourcefile}").pipe(res)
+unless app.settings.env is "production"
+  app.get '/lib/frontend/coffee/:sourcefile', (req, res) ->
+    fs = require 'fs'
+    fs.createReadStream("#{__dirname}/lib/frontend/coffee/#{req.params.sourcefile}").pipe(res)
 
 port = process.env.PORT || 5678
 app.listen port, ->
