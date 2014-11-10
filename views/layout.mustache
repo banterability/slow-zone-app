@@ -11,12 +11,24 @@
   </head>
   <body>
     <header>
+      <nav>
+        <ul>
+          <li id="title">Slow Zone</li>
+          <li><a href="/nearby">Nearby</a></li>
+          <li><a href="/am">AM</a></li>
+          <li><a href="/pm">PM</a></li>
+        </ul>
+      </nav>
     </header>
-    {{#title}}
-      <h2>{{head}}</h2>
-      <h4>{{subhead}}</h4>
-    {{/title}}
-    {{{ yield }}}
+
+    <section>
+      {{#title}}
+        <h2>{{head}}</h2>
+        <h4>{{subhead}}</h4>
+      {{/title}}
+      {{{ yield }}}
+    </section>
+
     {{#scripts}}
       <script src="{{url}}"></script>
     {{/scripts}}
