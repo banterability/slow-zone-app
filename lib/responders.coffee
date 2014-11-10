@@ -4,11 +4,12 @@ createHeader = (results, type) ->
   train = results[0]
   switch type
     when 'route'
-      "#{train.route.name} ##{train.route.run} towards #{train.destination.name}"
+      head: "#{train.route.name} ##{train.route.run} towards #{train.destination.name}"
     when 'station'
-      "Arrivals for #{train.station.name}"
+      head: "Arrivals for #{train.station.name}"
     when 'stop'
-      "Arrivals for #{train.station.name}<br>#{train.station.stop.description}"
+      head: "Arrivals for #{train.station.name}"
+      subhead: "#{train.station.stop.description}"
 
 respondWithError = (res, errorMessage) ->
   res.locals.message = errorMessage
