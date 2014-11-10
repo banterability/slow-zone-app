@@ -29,13 +29,13 @@ app.get '/stop/:stopId', (req, res) ->
   stopId = req.params.stopId
   arrivals = new ArrivalBoard {stopId}
 
-  respondForStation res, arrivals, {header: 'stop'}
+  respondForStation res, arrivals, {headerType: 'stop'}
 
 app.get '/station/:stationId', (req, res) ->
   stationId = req.params.stationId
   arrivals = new ArrivalBoard {stationId}
 
-  respondForStation res, arrivals, {header: 'station'}
+  respondForStation res, arrivals, {headerType: 'station'}
 
 app.get '/am', (req, res) ->
   arrivals = new ArrivalBoard [
@@ -65,7 +65,7 @@ app.get '/nearby', (req, res) ->
     {url: '/assets/nearby.js'}
   ]
   res.locals.icon = drawIcon ['blue', 'orange', 'red', 'brown', 'green', 'purple']
-  res.locals.header = 'Nearby Stations'
+  res.locals.title = head: 'Nearby Stations'
   res.render 'nearby'
 
 app.post '/locate', (req, res) ->

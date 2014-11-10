@@ -10,12 +10,12 @@
     {{/icon}}
   </head>
   <body>
-    {{#header}}
     <header>
+    </header>
+    {{#title}}
       <h2>{{head}}</h2>
       <h4>{{subhead}}</h4>
-    </header>
-    {{/header}}
+    {{/title}}
     {{{ yield }}}
     {{#scripts}}
       <script src="{{url}}"></script>

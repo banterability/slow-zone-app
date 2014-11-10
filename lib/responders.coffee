@@ -21,12 +21,12 @@ module.exports =
       return respondWithError res, err.toString() if err
       res.locals.predictions = results
       res.locals.icon = iconForPredictionSet results
-      res.locals.header = createHeader results, options.header if options.header?
+      res.locals.title = createHeader results, options.headerType if options.headerType?
       res.render 'arrivals'
 
   respondForTrain: (res, schedule) ->
     schedule.fetch (err, results) ->
       return respondWithError res, err.toString() if err
       res.locals.schedule = results
-      res.locals.header = createHeader results, 'route'
+      res.locals.title = createHeader results, 'route'
       res.render 'follow'
