@@ -1,18 +1,6 @@
 @import 'nib'
 @import 'colors'
-
-*, *:before, *:after
-  box-sizing: border-box
-
-body
-  background-color: $color-background-color
-  color: $color-text-color
-  font-family: Avenir
-  font-size: 18px
-  margin: 0
-
-section
-  margin: 0 10px
+@import 'layout'
 
 .details
   list-style-type: none
@@ -57,35 +45,33 @@ section
   font-style: italic
   font-size: 11px
 
-a
-  color: $color-cta-yellow
+figure
+  .cta-red &
+    background-color: $color-cta-red
 
-.cta-red figure
-  background-color: $color-cta-red
+  .cta-green &
+    background-color: $color-cta-green
 
-.cta-green figure
-  background-color: $color-cta-green
+  .cta-brown &
+    background-color: $color-cta-brown
 
-.cta-brown figure
-  background-color: $color-cta-brown
+  .cta-purple &
+    background-color: $color-cta-purple
 
-.cta-purple figure
-  background-color: $color-cta-purple
+  .cta-blue &
+    background-color: $color-cta-blue
 
-.cta-blue figure
-  background-color: $color-cta-blue
+  .cta-orange &
+    background-color: $color-cta-orange
 
-.cta-orange figure
-  background-color: $color-cta-orange
+  .cta-yellow &
+    background-color: $color-cta-yellow
 
-.cta-yellow figure
-  background-color: $color-cta-yellow
+  .cta-pink &
+    background-color: $color-cta-pink
 
-.cta-pink figure
-  background-color: $color-cta-pink
-
-.cta-gray figure
-  background-color: $color-cta-gray
+  .cta-gray &
+    background-color: $color-cta-gray
 
 .nearby-stations
   figure
@@ -99,20 +85,3 @@ a
 
   figcaption
     vertical-align: 0
-
-header
-  background-color: $color-header-color
-
-nav
-  padding: 5px 0
-
-  ul
-    padding: 0
-    margin: 0
-
-    li
-      display: inline-block
-      margin: 0 5px
-
-#title
-  font-weight: bold
