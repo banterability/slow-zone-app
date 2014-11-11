@@ -1,31 +1,63 @@
-$animation-ms = 1100ms
-$timing-offset = $animation-ms / 5
+$animation-ms = 900ms
+$timing-offset = $animation-ms / 6
+
+$spinner-size = 100px
+$dot-size = $spinner-size * 0.3
+
+// Magic numbers :(
+$center-horizontal-offset = 35%
+$center-vertical-offset = 3%
+$corner-horizontal-offset = 5%
+$corner-vertical-offset = 20%
 
 @-webkit-keyframes throb
   0%, 60%, 100%
-    transform: scale(0.3)
+    transform: scale(0.2)
   30%
     background-color: white
-    transform: scale(1)
+    transform: scale(0.8)
 
 .spinner
-  text-align: center
+  height: $spinner-size
+  position: relative
+  width: $spinner-size
 
   .dot
     animation: throb $animation-ms infinite ease-in-out
     background-color: darken(white, 20%)
     border-radius: 50%
     display: inline-block
-    height: 20px
+    height: $dot-size
     margin: 0
-    transform: scale(0.3)
-    width: 20px
+    position: absolute
+    transform: scale(0)
+    width: $dot-size
+
+#dot1
+  left: $corner-horizontal-offset
+  top: $corner-vertical-offset
 
 #dot2
   animation-delay: $timing-offset
+  left: $center-horizontal-offset
+  top: $center-vertical-offset
 
 #dot3
   animation-delay: $timing-offset * 2
+  right: $corner-horizontal-offset
+  top: $corner-vertical-offset
 
 #dot4
   animation-delay: $timing-offset * 3
+  bottom: $corner-vertical-offset
+  right:$corner-horizontal-offset
+
+#dot5
+  animation-delay: $timing-offset * 4
+  bottom: $center-vertical-offset
+  right: $center-horizontal-offset
+
+#dot6
+  animation-delay: $timing-offset * 5
+  bottom: $corner-vertical-offset
+  left: $corner-horizontal-offset
