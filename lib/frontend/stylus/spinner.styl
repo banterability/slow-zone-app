@@ -1,0 +1,31 @@
+$animation-ms = 1100ms
+$timing-offset = $animation-ms / 5
+
+@-webkit-keyframes throb
+  0%, 60%, 100%
+    transform: scale(0.3)
+  30%
+    background-color: white
+    transform: scale(1)
+
+.spinner
+  text-align: center
+
+  .dot
+    animation: throb $animation-ms infinite ease-in-out
+    background-color: darken(white, 20%)
+    border-radius: 50%
+    display: inline-block
+    height: 20px
+    margin: 0
+    transform: scale(0.3)
+    width: 20px
+
+#dot2
+  animation-delay: $timing-offset
+
+#dot3
+  animation-delay: $timing-offset * 2
+
+#dot4
+  animation-delay: $timing-offset * 3

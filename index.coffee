@@ -21,6 +21,7 @@ app.use "/assets", express.static "#{__dirname}/public"
 app.use baseUrlMiddleware
 
 app.set 'view engine', 'mustache'
+app.set 'partials', {'spinner'}
 app.set 'layout', 'layout'
 app.engine 'mustache', hogan
 app.enable 'view cache' if app.settings.env is "production"
