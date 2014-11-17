@@ -1,18 +1,13 @@
-CtaApi = require '../api'
-Train = require './train'
+SlowZone = require 'slow-zone'
 
 module.exports = (app) ->
 
-  client = new CtaApi apiKey: app.get 'apiKey'
-
-  createSchedule = (scheduleData = [], options = {}) ->
-    (new Train(trainData, options).toHash() for trainData in scheduleData)
+  client = new SlowZone apiKey: app.get 'apiKey'
 
   class Schedule
     constructor: (@runNumber, @options = {}) ->
 
     fetch: (callback) ->
-      client.follow.train @runNumber, (err, data) =>
-        callback err, createSchedule data?.eta, @options
+      client.follow.train @runNumber, callback
 
   {Schedule}
