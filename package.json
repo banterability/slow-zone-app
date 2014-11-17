@@ -1,5 +1,5 @@
 {
-  "name": "slow-zone",
+  "name": "slow-zone-app",
   "version": "0.9.1",
   "private": true,
   "dependencies": {
@@ -37,12 +37,12 @@
   "main": "index.coffee",
   "repository": {
     "type": "git",
-    "url": "https://github.com/banterability/slow-zone"
+    "url": "https://github.com/banterability/slow-zone-app"
   },
   "author": "Jeff Long",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/banterability/slow-zone/issues"
+    "url": "https://github.com/banterability/slow-zone-app/issues"
   },
-  "homepage": "https://github.com/banterability/slow-zone",
+  "homepage": "https://github.com/banterability/slow-zone-app"
 }
