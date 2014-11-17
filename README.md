@@ -1,5 +1,5 @@
-slow-zone
-=========
+slow-zone-app
+=============
 
 Mobile-friendly CTA arrival data. We expect to be moving shortly.
 
