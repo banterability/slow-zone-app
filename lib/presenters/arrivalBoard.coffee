@@ -1,15 +1,10 @@
 async = require 'async'
 {chain, isArray, map} = require 'underscore'
-CtaApi = require '../api'
-Train = require './train'
+SlowZone = require 'slow-zone'
 
 module.exports = (app) ->
 
-  client = new CtaApi apiKey: app.get 'apiKey'
-
-  createPredictions = (predictionData = []) ->
-    predictionData = [predictionData] unless isArray predictionData
-    predictionData.map (trainData) -> new Train(trainData).toHash()
+  client = new SlowZone apiKey: app.get 'apiKey'
 
   class ArrivalBoard
     constructor: (@routes) ->
@@ -17,13 +12,11 @@ module.exports = (app) ->
 
     arrivalsForStation: (stationId, options = {}) ->
       (callback) ->
-        client.arrivals.byStation stationId, options, (err, data) ->
-          callback err, createPredictions data?.eta
+        client.arrivals.byStation stationId, options, callback
 
     arrivalsForStop: (stopId, options = {}) ->
       (callback) ->
-        client.arrivals.byStop stopId, options, (err, data) ->
-          callback err, createPredictions data?.eta
+        client.arrivals.byStop stopId, options, callback
 
     fetch: (callback) ->
       requests = map @routes, (route) =>

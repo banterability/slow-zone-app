@@ -46,7 +46,8 @@ ICON_LAYOUTS =
     [67, 50, 33, 50] # bottom right
   ]
 
-drawIcon = (items) ->
+drawIcon = (items = []) ->
+  return '' unless items.length > 0
   canvas = new Canvas 100, 100
   ctx = canvas.getContext '2d'
 
