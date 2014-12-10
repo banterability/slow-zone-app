@@ -65,7 +65,7 @@ app.get '/nearby', (req, res) ->
     {url: '/assets/vendor/jaxx.js'}
     {url: '/assets/nearby.js'}
   ]
-  res.locals.icon = drawIcon ['blue', 'orange', 'red', 'brown', 'green', 'purple']
+  res.locals.icon = drawIcon()
   res.locals.title = head: 'Nearby Stations'
   res.render 'nearby'
 

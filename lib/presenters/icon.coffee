@@ -47,7 +47,8 @@ ICON_LAYOUTS =
   ]
 
 drawIcon = (items = []) ->
-  return '' unless items.length > 0
+  items =  ['blue', 'orange', 'red', 'brown', 'green', 'purple'] if items.length == 0
+
   canvas = new Canvas 100, 100
   ctx = canvas.getContext '2d'
 
