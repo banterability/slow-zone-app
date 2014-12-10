@@ -5,7 +5,7 @@
       {{ prediction.arrivalMinutes }}m
     </figure>
     <figcaption>
-      <div class="main-line">{{station.name}}</div>
+      <div class="main-line">{{station.name}} @ {{prediction.arrivalString}}</div>
       <div class="second-line">arrivals for this <a href="/stop/{{station.stop.id}}">stop</a> | <a href="/station/{{station.id}}">station</a> – predicted {{ prediction.predictionAge }}s ago</div>
     </figcaption>
   </li>
