@@ -5,7 +5,7 @@ module.exports = (app) ->
   client = new SlowZone apiKey: app.get 'apiKey'
 
   class Schedule
-    constructor: (@runNumber, @options = {}) ->
+    constructor: (@runNumber) ->
 
     fetch: (callback) ->
       client.follow.train @runNumber, callback

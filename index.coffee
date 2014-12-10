@@ -56,7 +56,7 @@ app.get '/pm', (req, res) ->
 
 app.get '/follow/:run', (req, res) ->
   runId = req.params.run
-  runSchedule = new Schedule runId, {highlightStop: req.query.stop}
+  runSchedule = new Schedule runId
 
   respondForTrain res, runSchedule
 
