@@ -30,6 +30,13 @@ module.exports = (app) ->
         unifiedList = chain(results).flatten().sortBy(
           (result) -> result.prediction.arrivalTime
         ).value()
+
+        index = 0
+        unifiedList = unifiedList.map (result) ->
+          result.index = index
+          index += 1
+          result
+
         callback null, unifiedList
 
   {ArrivalBoard}

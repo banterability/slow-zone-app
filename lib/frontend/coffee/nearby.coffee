@@ -4,7 +4,7 @@ spinnerEl = document.querySelector '.spinner'
 appendElToList = (el) ->
   resultsListEl.appendChild el
 
-appendStationEl = ({distance, stationName, stationUrl}) ->
+appendStationEl = ({distance, index, stationName, stationUrl}) ->
   markup = """
     <figure>#{distance}<span class="units">mi</span></figure>
     <figcaption>
@@ -17,6 +17,7 @@ appendStationEl = ({distance, stationName, stationUrl}) ->
 
   listEl = document.createElement 'li'
   listEl.classList.add 'cta-train'
+  listEl.classList.add "delay-#{index}"
   listEl.innerHTML = markup
 
   appendElToList listEl
@@ -44,6 +45,7 @@ getNearbyStations = ->
       for result in results.closestStations
         appendStationEl {
           distance: result.distance.miles.toFixed(1)
+          index: result.index
           stationName: result.name
           stationUrl: "/station/#{result.id}"
         }

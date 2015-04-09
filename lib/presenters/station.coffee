@@ -17,8 +17,11 @@ nearbyStations = (coordinates, limit=1) ->
   nearest = geolib.findNearest coordinates, STATION_COORDINATES, 0, limit
   nearest = [nearest] unless isArray nearest
 
+  index = -1
+
   map nearest, (nearbyStation) ->
+    index += 1
     stationData = find STATION_METADATA, (station) -> station.id == nearbyStation.key
-    extend {}, stationData, distance: presentDistance nearbyStation.distance
+    extend {}, stationData, index: index, distance: presentDistance nearbyStation.distance
 
 module.exports = {nearbyStations}

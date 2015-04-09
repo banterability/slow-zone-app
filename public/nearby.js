@@ -10,11 +10,12 @@
   };
 
   appendStationEl = function(_arg) {
-    var distance, listEl, markup, stationName, stationUrl;
-    distance = _arg.distance, stationName = _arg.stationName, stationUrl = _arg.stationUrl;
+    var distance, index, listEl, markup, stationName, stationUrl;
+    distance = _arg.distance, index = _arg.index, stationName = _arg.stationName, stationUrl = _arg.stationUrl;
     markup = "<figure>" + distance + "<span class=\"units\">mi</span></figure>\n<figcaption>\n  <div class=\"main-line\">" + stationName + "</div>\n  <div class=\"second-line\">\n    <a href=\"" + stationUrl + "\">Arrivals</a>\n  </div>\n</figcaption>";
     listEl = document.createElement('li');
     listEl.classList.add('cta-train');
+    listEl.classList.add("delay-" + index);
     listEl.innerHTML = markup;
     return appendElToList(listEl);
   };
@@ -50,6 +51,7 @@
           result = _ref[_i];
           _results.push(appendStationEl({
             distance: result.distance.miles.toFixed(1),
+            index: result.index,
             stationName: result.name,
             stationUrl: "/station/" + result.id
           }));

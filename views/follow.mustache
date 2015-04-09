@@ -1,6 +1,6 @@
 <ul class="details">
 {{#schedule}}
-  <li class="cta-train cta-{{route.class}} {{#highlight}}highlight{{/highlight}}">
+  <li class="cta-train cta-{{route.class}} delay-{{index}} {{#highlight}}highlight{{/highlight}}">
     <figure>
       {{ prediction.arrivalMinutes }}m
     </figure>
