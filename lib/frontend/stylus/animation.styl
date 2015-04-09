@@ -1,0 +1,17 @@
+for num in 0..12
+  .delay-{num}
+    animation-delay: num * 150ms
+
+@keyframes fly
+  0%
+    opacity: 0
+
+  100%
+    transform: translateX(0)
+    opacity: 1
+
+.cta-train
+  animation-name: fly
+  animation-duration: 750ms
+  animation-fill-mode: forwards
+  transform: translateX(-150%)
