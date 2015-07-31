@@ -5,7 +5,7 @@ hogan = require 'hogan-express'
 morgan = require 'morgan'
 {drawIcon} = require './lib/presenters/icon'
 {nearbyStations} = require './lib/presenters/station'
-{respondForStation, respondForTrain} = require './lib/responders'
+{respondForStation, respondForStatusBoard, respondForTrain} = require './lib/responders'
 
 app = express()
 
@@ -37,6 +37,12 @@ app.get '/station/:stationId', (req, res) ->
   arrivals = new ArrivalBoard {stationId}
 
   respondForStation res, arrivals, {headerType: 'station'}
+
+app.get '/statusboard/:stationId', (req, res) ->
+  stationId = req.params.stationId
+  arrivals = new ArrivalBoard {stationId}
+
+  respondForStatusBoard res, arrivals, {headerType: 'station'}
 
 app.get '/am', (req, res) ->
   arrivals = new ArrivalBoard [

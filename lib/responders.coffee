@@ -24,6 +24,14 @@ module.exports =
       res.locals.title = createHeader results, options.headerType if options.headerType?
       res.render 'arrivals'
 
+  respondForStatusBoard: (res, arrivals, options = {}) ->
+    arrivals.fetch (err, results) ->
+      return respondWithError res, err.toString() if err
+      res.locals.predictions = results
+      res.locals.icon = iconForPredictionSet results
+      res.locals.title = createHeader results, options.headerType if options.headerType?
+      res.render 'statusboard', layout: null
+
   respondForTrain: (res, schedule) ->
     schedule.fetch (err, results) ->
       return respondWithError res, err.toString() if err
