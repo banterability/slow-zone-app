@@ -3,6 +3,7 @@ bodyParser = require 'body-parser'
 express = require 'express'
 hogan = require 'hogan-express'
 morgan = require 'morgan'
+StatHatLogger = require './lib/stathat'
 {drawIcon} = require './lib/presenters/icon'
 {nearbyStations} = require './lib/presenters/station'
 {respondForStation, respondForStatusBoard, respondForTrain} = require './lib/responders'
@@ -19,6 +20,9 @@ app.use bodyParser.json()
 app.use morgan('short')
 app.use "/assets", express.static "#{__dirname}/public"
 app.use baseUrlMiddleware
+app.use (req, res, next) ->
+  StatHatLogger.logCount 'request'
+  next()
 
 app.set 'view engine', 'mustache'
 app.set 'partials', {'spinner'}

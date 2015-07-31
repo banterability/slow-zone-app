@@ -1,4 +1,5 @@
 SlowZone = require 'slow-zone'
+StatHatLogger = require '../stathat'
 
 module.exports = (app) ->
 
@@ -8,6 +9,7 @@ module.exports = (app) ->
     constructor: (@runNumber) ->
 
     fetch: (callback) ->
+      StatHatLogger.logCount 'api call'
       client.follow.train @runNumber, (err, body) ->
         if body?.length > 0
           index = 0

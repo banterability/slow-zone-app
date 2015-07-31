@@ -1,6 +1,7 @@
 async = require 'async'
 {chain, isArray, map} = require 'underscore'
 SlowZone = require 'slow-zone'
+StatHatLogger = require '../stathat'
 
 module.exports = (app) ->
 
@@ -12,10 +13,12 @@ module.exports = (app) ->
 
     arrivalsForStation: (stationId, options = {}) ->
       (callback) ->
+        StatHatLogger.logCount 'api call'
         client.arrivals.byStation stationId, options, callback
 
     arrivalsForStop: (stopId, options = {}) ->
       (callback) ->
+        StatHatLogger.logCount 'api call'
         client.arrivals.byStop stopId, options, callback
 
     fetch: (callback) ->
@@ -27,6 +30,7 @@ module.exports = (app) ->
 
       async.parallel requests, (err, results) ->
         return callback err, null if err
+
         unifiedList = chain(results).flatten().sortBy(
           (result) -> result.prediction.arrivalTime
         ).value()
