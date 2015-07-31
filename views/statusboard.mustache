@@ -1,0 +1,35 @@
+<style>
+  .cta-blue{
+    background-color: rgba(0, 161, 222, 0.75);
+  }
+  td{
+    position: relative;
+  }
+  td span{
+    display: inline-block;
+    position: absolute;
+  }
+  .time{
+    right: 0;
+    margin-right: 5px;
+    text-align: right;
+  }
+  .eta{
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  .destination{
+    margin-left: 80px;
+  }
+</style>
+<table id="trains">
+  {{#predictions}}
+    <tr class="cta-{{route.class}}">
+      <td>
+        <span class="eta">{{prediction.arrivalMinutes}}m</span>
+        <span class="destination">{{destination.name}}</span>
+        <span class="time">{{prediction.arrivalString}}</span>
+      </td>
+    </tr>
+  {{/predictions}}
+</table>
