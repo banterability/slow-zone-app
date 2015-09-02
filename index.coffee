@@ -84,7 +84,7 @@ app.post '/locate', (req, res) ->
     res.statusCode = 400
     res.send error: 'invalid request'
 
-  results = nearbyStations {latitude: req.body.lat, longitude: req.body.lng}, 3
+  results = nearbyStations {latitude: req.body.lat, longitude: req.body.lng}, 5
   res.send closestStations: results
 
 unless app.settings.env is "production"
