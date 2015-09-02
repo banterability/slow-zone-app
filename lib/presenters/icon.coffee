@@ -1,5 +1,6 @@
 Canvas = require 'canvas'
 {chain} = require 'underscore'
+StatHatLogger = require '../stathat'
 
 CTA_COLORS =
   blue: '#00A1DE'
@@ -47,6 +48,7 @@ ICON_LAYOUTS =
   ]
 
 drawIcon = (items = []) ->
+  StatHatLogger.logCount 'generate icon'
   items =  ['blue', 'orange', 'red', 'brown', 'green', 'purple'] if items.length == 0
 
   canvas = new Canvas 100, 100
