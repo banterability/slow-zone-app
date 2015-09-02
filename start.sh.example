@@ -1,0 +1,15 @@
+#!/bin/bash
+
+CTA_API_KEY=abcde
+STATHAT_EZ_KEY=12345
+PROJECT_DIR="/apps/slow-zone"
+LOG_DIR="$PROJECT_DIR/logs"
+
+rm $LOG_DIR/forever.log
+
+STATHAT_EZ_KEY=$STATHAT_EZ_KEY CTA_API_KEY=$CTA_API_KEY forever start \
+  -l $LOG_DIR/forever.log \
+  -o $LOG_DIR/stdout.log \
+  -e $LOG_DIR/stderr.log \
+  -c $PROJECT_DIR/node_modules/.bin/coffee \
+  $PROJECT_DIR/index.coffee
