@@ -29,6 +29,15 @@
       {{{ yield }}}
     </section>
 
+    <script src="/assets/vendor/fastclick.js"></script>
+    <script>
+      if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+          FastClick.attach(document.body);
+        }, false);
+      }
+    </script>
+
     {{#scripts}}
       <script src="{{url}}"></script>
     {{/scripts}}
