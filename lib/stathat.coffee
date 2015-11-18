@@ -7,6 +7,6 @@ class Stats
 
   logCount: (key, value = 1) ->
     StatHat.trackEZCount @ezKey, key, value, (status, json) ->
-      console.log"[StatHat] log to #{key}", status, json.toString()
+      console.log "[StatHat] log to " + key, status, json.toString()
 
 module.exports = new Stats()

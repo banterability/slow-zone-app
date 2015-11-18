@@ -87,6 +87,9 @@ app.post '/locate', (req, res) ->
   results = nearbyStations {latitude: req.body.lat, longitude: req.body.lng}, 5
   res.send closestStations: results
 
+app.get '/', (req, res) ->
+  res.render 'index'
+
 unless app.settings.env is "production"
   app.get '/lib/frontend/coffee/:sourcefile', (req, res) ->
     fs = require 'fs'
