@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width">
     <title>{{#title}}{{head}}{{/title}}{{^title}}Slow Zone{{/title}}</title>
-    <link href="{{baseUrl}}/assets/style.css" rel="stylesheet">
+    <link href="{{baseUrl}}/style.css" rel="stylesheet">
     {{#icon}}
       <link rel="icon" type="image/png" href="{{icon}}">
       <link rel="apple-touch-icon" type="image/png" href="{{icon}}">
@@ -29,7 +29,7 @@
       {{{ yield }}}
     </section>
 
-    <script src="/assets/vendor/fastclick.js"></script>
+    <script src="/vendor/fastclick.js"></script>
     <script>
       if ('addEventListener' in document) {
         document.addEventListener('DOMContentLoaded', function() {

@@ -18,7 +18,6 @@ app.set 'apiKey', process.env.CTA_API_KEY
 
 app.use bodyParser.json()
 app.use morgan('short')
-app.use "/assets", express.static "#{__dirname}/public"
 app.use baseUrlMiddleware
 app.use (req, res, next) ->
   StatHatLogger.logCount 'request'
@@ -29,6 +28,8 @@ app.set 'partials', {'spinner'}
 app.set 'layout', 'layout'
 app.engine 'mustache', hogan
 app.enable 'view cache' if app.settings.env is "production"
+
+app.enable "trust proxy"
 
 app.get '/stop/:stopId', (req, res) ->
   stopId = req.params.stopId
@@ -72,8 +73,8 @@ app.get '/follow/:run', (req, res) ->
 
 app.get '/nearby', (req, res) ->
   res.locals.scripts = [
-    {url: '/assets/vendor/jaxx.js'}
-    {url: '/assets/nearby.js'}
+    {url: '/vendor/jaxx.js'}
+    {url: '/nearby.js'}
   ]
   res.locals.icon = drawIcon()
   res.locals.title = head: 'Nearby Stations'
