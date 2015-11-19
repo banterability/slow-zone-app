@@ -1,4 +1,3 @@
-baseUrlMiddleware = require './lib/middleware/base_url'
 bodyParser = require 'body-parser'
 express = require 'express'
 hogan = require 'hogan-express'
@@ -18,7 +17,6 @@ app.set 'apiKey', process.env.CTA_API_KEY
 
 app.use bodyParser.json()
 app.use morgan('short')
-app.use baseUrlMiddleware
 app.use (req, res, next) ->
   StatHatLogger.logCount 'request'
   next()
