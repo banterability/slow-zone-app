@@ -17,7 +17,7 @@ throw "StatHat EZ Key not configured! ($STATHAT_EZ_KEY)" unless process.env.STAT
 
 app.use bodyParser.json()
 app.use morgan('short')
-app.use express.static('public') unless app.settings.env is "production"
+
 app.use (req, res, next) ->
   StatHatLogger.logCount 'request'
   next()
@@ -26,7 +26,6 @@ app.set 'view engine', 'mustache'
 app.set 'partials', {'spinner'}
 app.set 'layout', 'layout'
 app.engine 'mustache', hogan
-app.enable 'view cache' if app.settings.env is "production"
 
 app.enable "trust proxy"
 
@@ -90,7 +89,12 @@ app.post '/locate', (req, res) ->
 app.get '/', (req, res) ->
   res.render 'index'
 
-unless app.settings.env is "production"
+if app.settings.env is "production"
+  app.enable 'view cache'
+
+else
+  app.use express.static('public')
+
   app.get '/lib/frontend/coffee/:sourcefile', (req, res) ->
     fs = require 'fs'
     fs.createReadStream("#{__dirname}/lib/frontend/coffee/#{req.params.sourcefile}").pipe(res)
