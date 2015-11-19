@@ -1,5 +1,5 @@
 async = require 'async'
-{chain, isArray, map} = require 'underscore'
+{chain, isArray} = require 'underscore'
 SlowZone = require 'slow-zone'
 StatHatLogger = require '../stathat'
 
@@ -20,7 +20,7 @@ class ArrivalBoard
       client.arrivals.byStop stopId, options, callback
 
   fetch: (callback) ->
-    requests = map @routes, (route) =>
+    requests = @routes.map (route) =>
       if route.stopId
         @arrivalsForStop route.stopId, route.options
       else if route.stationId
@@ -33,12 +33,8 @@ class ArrivalBoard
         (result) -> result.prediction.arrivalTime
       ).value()
 
-      index = 0
-      unifiedList = unifiedList.map (result) ->
+      callback null, unifiedList.map (result, index) ->
         result.index = index
-        index += 1
         result
-
-      callback null, unifiedList
 
 module.exports = {ArrivalBoard}

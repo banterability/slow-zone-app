@@ -1,4 +1,4 @@
-{extend, find, map, isArray} = require 'underscore'
+{extend, find, isArray} = require 'underscore'
 fs = require 'fs'
 geolib = require 'geolib'
 StatHatLogger = require '../stathat'
@@ -19,10 +19,7 @@ nearbyStations = (coordinates, limit=1) ->
   nearest = geolib.findNearest coordinates, STATION_COORDINATES, 0, limit
   nearest = [nearest] unless isArray nearest
 
-  index = -1
-
-  map nearest, (nearbyStation) ->
-    index += 1
+  nearest.map (nearbyStation, index) ->
     stationData = find STATION_METADATA, (station) -> station.id == nearbyStation.key
     extend {}, stationData, index: index, distance: presentDistance nearbyStation.distance
 
