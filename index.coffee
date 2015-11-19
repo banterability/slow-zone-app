@@ -2,18 +2,18 @@ bodyParser = require 'body-parser'
 express = require 'express'
 hogan = require 'hogan-express'
 morgan = require 'morgan'
-StatHatLogger = require './lib/stathat'
+
+{ArrivalBoard} = require './lib/presenters/arrivalBoard'
 {drawIcon} = require './lib/presenters/icon'
 {nearbyStations} = require './lib/presenters/station'
 {respondForStation, respondForStatusBoard, respondForTrain} = require './lib/responders'
+{Schedule} = require './lib/presenters/schedule'
+StatHatLogger = require './lib/stathat'
 
 app = express()
 
 throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
-app.set 'apiKey', process.env.CTA_API_KEY
-
-{ArrivalBoard} = require('./lib/presenters/arrivalBoard')(app)
-{Schedule} = require('./lib/presenters/schedule')(app)
+throw "StatHat EZ Key not configured! ($STATHAT_EZ_KEY)" unless process.env.STATHAT_EZ_KEY
 
 app.use bodyParser.json()
 app.use morgan('short')
