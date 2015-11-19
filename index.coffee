@@ -67,6 +67,8 @@ app.get '/follow/:run', (req, res) ->
   runId = req.params.run
   runSchedule = new Schedule runId
 
+  res.locals.icon = drawIcon() # TODO: Customize this
+
   respondForTrain res, runSchedule
 
 app.get '/nearby', (req, res) ->
@@ -87,6 +89,7 @@ app.post '/locate', (req, res) ->
   res.send closestStations: results
 
 app.get '/', (req, res) ->
+  res.locals.icon = drawIcon() # TODO: Customize this
   res.render 'index'
 
 if app.settings.env is "production"
