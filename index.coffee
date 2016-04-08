@@ -2,6 +2,7 @@ bodyParser = require 'body-parser'
 express = require 'express'
 hogan = require 'hogan-express'
 morgan = require 'morgan'
+raven = require 'raven'
 
 {ArrivalBoard} = require './lib/presenters/arrivalBoard'
 {drawIcon} = require './lib/presenters/icon'
@@ -14,7 +15,10 @@ app = express()
 
 throw "CTA API Key not configured! ($CTA_API_KEY)" unless process.env.CTA_API_KEY
 throw "StatHat EZ Key not configured! ($STATHAT_EZ_KEY)" unless process.env.STATHAT_EZ_KEY
+throw "Sentry DSN not configured! ($SENTRY_DSN)" unless process.env.SENTRY_DSN
 
+app.use raven.middleware.express.requestHandler(process.env.SENTRY_DSN)
+app.use raven.middleware.express.errorHandler(process.env.SENTRY_DSN)
 app.use bodyParser.json()
 app.use morgan('short')
 
